@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline Quest</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f5ead8;
+    --ink: #2c1a0e;
+    --gold: #c9861f;
+    --gold-light: #e8b84b;
+    --bronze: #8b5e3c;
+    --deep-red: #7a1f1f;
+    --green: #2e6b3e;
+    --shadow: rgba(44,26,14,0.22);
+    --stone: #b5a48a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, #3a2010 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 90%, #1a0e05 0%, transparent 55%);
+    min-height: 100vh;
+    font-family: 'Crimson Text', serif;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite alternate; }
+  @keyframes twinkle { from { opacity: 0.15; } to { opacity: 0.85; } }
+
+  .page-wrap {
+    position: relative; z-index: 1;
+    max-width: 600px; margin: 0 auto;
+    padding: 20px 14px 56px;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center; padding: 22px 0 14px;
+    border-bottom: 2px solid var(--gold); margin-bottom: 18px;
+  }
+  .title-main {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 5vw, 2.2rem);
+    color: var(--gold-light); letter-spacing: 2px;
+    text-shadow: 0 2px 12px rgba(201,134,31,0.5);
+  }
+  .title-sub { font-size: 0.95rem; color: var(--stone); margin-top: 5px; font-style: italic; }
+
+  /* HUD */
+  .hud {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(245,234,216,0.06);
+    border: 1px solid rgba(201,134,31,0.28);
+    border-radius: 10px; padding: 9px 16px; margin-bottom: 14px;
+    gap: 8px; flex-wrap: wrap;
+  }
+  .hud-item { color: var(--stone); font-size: 0.9rem; }
+  .hud-item span { font-family: 'Exo 2', sans-serif; font-weight: 700; color: var(--gold-light); font-size: 1.1rem; }
+  .stars-row { font-size: 1.4rem; letter-spacing: 2px; }
+
+  /* MODE BAR */
+  .mode-bar { display: flex; gap: 8px; margin-bottom: 14px; }
+  .mode-btn {
+    flex: 1; padding: 9px 8px;
+    background: rgba(245,234,216,0.05);
+    border: 1.5px solid rgba(201,134,31,0.3);
+    border-radius: 8px; color: var(--stone);
+    font-family: 'Crimson Text', serif; font-size: 0.92rem;
+    cursor: pointer; transition: all 0.18s; text-align: center;
+  }
+  .mode-btn:hover, .mode-btn.active {
+    background: rgba(201,134,31,0.16); border-color: var(--gold); color: var(--gold-light);
+  }
+  .mode-icon { font-size: 1.2rem; display: block; margin-bottom: 1px; }
+
+  /* PROGRESS */
+  .progress-track { display: flex; gap: 5px; margin-bottom: 14px; flex-wrap: wrap; }
+  .prog-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: rgba(181,164,138,0.18);
+    border: 1.5px solid rgba(181,164,138,0.28); transition: background 0.3s;
+  }
+  .prog-dot.current { background: rgba(201,134,31,0.5); border-color: var(--gold); }
+  .prog-dot.correct-dot { background: var(--green); border-color: #5abd7a; }
+  .prog-dot.wrong-dot { background: var(--deep-red); border-color: #e05050; }
+
+  /* QUESTION */
+  .question-label {
+    font-family: 'Crimson Text', serif; font-size: 1.05rem; font-style: italic;
+    color: var(--stone); margin-bottom: 12px; text-align: center; line-height: 1.45;
+  }
+
+  /* INSTRUCTION */
+  .instruction {
+    text-align: center; margin-bottom: 12px;
+    font-family: 'Exo 2', sans-serif; font-size: 0.7rem;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(181,164,138,0.45);
+  }
+
+  /* TWO-COLUMN LAYOUT */
+  .game-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 14px; align-items: start;
+  }
+  @media (max-width: 420px) {
+    .game-layout { grid-template-columns: 1fr; }
+  }
+
+  .panel-label {
+    font-family: 'Exo 2', sans-serif; font-size: 0.66rem;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(181,164,138,0.45); margin-bottom: 7px;
+  }
+
+  /* CARD POOL */
+  .card-pool {
+    display: flex; flex-direction: column; gap: 7px;
+    background: rgba(0,0,0,0.22);
+    border: 1.5px dashed rgba(201,134,31,0.22);
+    border-radius: 10px; padding: 10px; min-height: 56px;
+  }
+
+  /* SLOTS PANEL */
+  .slots-panel {
+    display: flex; flex-direction: column; gap: 7px;
+    background: rgba(0,0,0,0.18);
+    border: 1.5px solid rgba(201,134,31,0.18);
+    border-radius: 10px; padding: 10px; min-height: 56px;
+    position: relative;
+  }
+  .slots-panel::before {
+    content: '1 = earliest';
+    position: absolute; top: -9px; left: 12px;
+    background: #2c1a0e; color: rgba(181,164,138,0.4);
+    font-family: 'Exo 2', sans-serif; font-size: 0.58rem;
+    letter-spacing: 1px; text-transform: uppercase; padding: 0 5px;
+  }
+
+  /* INDIVIDUAL SLOT */
+  .slot {
+    display: flex; align-items: center; gap: 8px;
+    min-height: 50px;
+    border: 2px dashed rgba(201,134,31,0.25);
+    border-radius: 8px; padding: 4px 8px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s;
+  }
+  .slot:hover:not(.locked) { border-color: rgba(201,134,31,0.55); background: rgba(201,134,31,0.04); }
+  .slot.slot-ready { border-color: rgba(201,134,31,0.45); }
+  .slot.slot-target {
+    border-color: var(--gold-light);
+    background: rgba(232,184,75,0.08);
+    animation: pulse-slot 0.9s infinite alternate;
+  }
+  @keyframes pulse-slot { from { border-color: rgba(232,184,75,0.4); } to { border-color: var(--gold-light); } }
+  .slot.locked { cursor: default; }
+
+  .slot-num {
+    font-family: 'Exo 2', sans-serif; font-weight: 700;
+    font-size: 0.82rem; color: rgba(181,164,138,0.38);
+    min-width: 16px; flex-shrink: 0;
+  }
+  .slot-empty-hint {
+    font-family: 'Crimson Text', serif; font-style: italic;
+    color: rgba(181,164,138,0.25); font-size: 0.8rem;
+    flex: 1;
+  }
+
+  /* CARDS */
+  .hcard {
+    background: linear-gradient(135deg, #f5ead8 85%, #e8d5b0 100%);
+    border: 2px solid var(--bronze); border-radius: 8px;
+    padding: 8px 11px; cursor: pointer; user-select: none;
+    font-family: 'Crimson Text', serif; color: var(--ink);
+    display: flex; align-items: center; gap: 9px;
+    box-shadow: 0 2px 7px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.5);
+    transition: transform 0.14s, box-shadow 0.14s, border-color 0.14s;
+    touch-action: manipulation; width: 100%;
+  }
+  .hcard:active { transform: scale(0.97); }
+  .hcard.selected {
+    border-color: var(--gold-light);
+    box-shadow: 0 0 0 3px rgba(232,184,75,0.3), 0 4px 12px var(--shadow);
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #fff8ec 85%, #f5e6be 100%);
+  }
+  .hcard.correct { border-color: #3a9b55; background: linear-gradient(135deg, #d4edda 85%, #b4dfc4 100%); cursor: default; }
+  .hcard.wrong { border-color: #b03030; background: linear-gradient(135deg, #f8d7da 85%, #f0b5ba 100%); cursor: default; animation: shake 0.38s; }
+  .hcard.locked { cursor: default; }
+
+  .card-emoji { font-size: 1.35rem; flex-shrink: 0; line-height: 1; }
+  .card-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+  .card-name { font-weight: 600; font-size: 0.88rem; line-height: 1.25; }
+  .card-era { font-size: 0.7rem; color: var(--bronze); font-style: italic; margin-top: 1px; visibility: hidden; }
+
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+  /* CONTROLS */
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .btn {
+    font-family: 'Cinzel Decorative', serif; font-size: 0.7rem;
+    letter-spacing: 0.8px; padding: 11px 14px; border: none;
+    border-radius: 8px; cursor: pointer; transition: all 0.18s; flex: 1; min-width: 80px;
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--ink); box-shadow: 0 2px 10px rgba(201,134,31,0.32);
+  }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(201,134,31,0.48); }
+  .btn-ghost { background: transparent; color: var(--stone); border: 1.5px solid rgba(181,164,138,0.28); }
+  .btn-ghost:hover { border-color: var(--stone); color: var(--parchment); }
+
+  /* RESULT */
+  .result-banner {
+    display: none; padding: 15px 16px; border-radius: 10px;
+    margin-bottom: 12px; text-align: center; animation: fadeIn 0.32s;
+  }
+  .result-banner.show { display: block; }
+  .result-banner.success { background: rgba(46,107,62,0.18); border: 2px solid var(--green); color: #9cdeb0; }
+  .result-banner.fail { background: rgba(122,31,31,0.18); border: 2px solid var(--deep-red); color: #f0b5ba; }
+  .result-banner h2 { font-family: 'Cinzel Decorative', serif; font-size: 1.05rem; margin-bottom: 4px; }
+  .result-banner p { font-size: 0.9rem; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+  /* HINT */
+  .hint-box {
+    background: rgba(58,111,168,0.1); border: 1px solid rgba(58,111,168,0.26);
+    border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;
+    color: #8ab4d8; font-size: 0.88rem; display: none;
+  }
+  .hint-box.show { display: block; }
+
+  /* ANSWER REVEAL */
+  .answer-reveal {
+    display: none; flex-direction: column; gap: 5px;
+    padding: 12px; background: rgba(0,0,0,0.2);
+    border-radius: 8px; margin-bottom: 12px;
+  }
+  .answer-reveal.show { display: flex; }
+  .answer-reveal-title {
+    font-family: 'Exo 2', sans-serif; font-size: 0.68rem;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone); margin-bottom: 3px;
+  }
+  .answer-chip {
+    background: rgba(201,134,31,0.1); border: 1px solid rgba(201,134,31,0.32);
+    border-radius: 6px; padding: 5px 10px; color: var(--gold-light);
+    font-size: 0.8rem; font-family: 'Exo 2', sans-serif;
+    display: flex; gap: 6px; align-items: center;
+  }
+  .chip-num { opacity: 0.45; }
+
+  .next-wrap { text-align: center; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="stars" id="starfield"></div>
+
+<div class="page-wrap">
+  <header>
+    <div class="title-main">⚔️ Timeline Quest</div>
+    <div class="title-sub">Put history in order — earliest to latest</div>
+  </header>
+
+  <div class="hud">
+    <div class="hud-item">Score <span id="scoreDisplay">0</span></div>
+    <div class="hud-item stars-row" id="starsDisplay">☆☆☆</div>
+    <div class="hud-item">Round <span id="roundDisplay">1</span> / 10</div>
+  </div>
+
+  <div class="mode-bar">
+    <button class="mode-btn active" onclick="setMode('world',this)"><span class="mode-icon">🌍</span>World</button>
+    <button class="mode-btn" onclick="setMode('britain',this)"><span class="mode-icon">🏰</span>Britain</button>
+    <button class="mode-btn" onclick="setMode('mixed',this)"><span class="mode-icon">🗺️</span>Mixed</button>
+  </div>
+
+  <div class="progress-track" id="progressTrack"></div>
+  <div class="question-label" id="questionLabel"></div>
+  <div class="instruction">Tap a card · then tap a slot to place it</div>
+
+  <div class="game-layout">
+    <div>
+      <div class="panel-label">Cards to place</div>
+      <div class="card-pool" id="cardPool"></div>
+    </div>
+    <div>
+      <div class="panel-label">Your timeline</div>
+      <div class="slots-panel" id="slotsPanel"></div>
+    </div>
+  </div>
+
+  <div class="hint-box" id="hintBox"></div>
+
+  <div class="controls">
+    <button class="btn btn-gold" onclick="checkAnswer()">⚖️ Check</button>
+    <button class="btn btn-ghost" onclick="showHint()">💡 Hint</button>
+    <button class="btn btn-ghost" onclick="clearSlots()">↩ Reset</button>
+  </div>
+
+  <div class="result-banner" id="resultBanner">
+    <h2 id="resultTitle"></h2>
+    <p id="resultMsg"></p>
+  </div>
+
+  <div class="answer-reveal" id="answerReveal">
+    <div class="answer-reveal-title">Correct order:</div>
+  </div>
+
+  <div class="next-wrap">
+    <button class="btn btn-gold" id="nextBtn" onclick="nextRound()" style="display:none;min-width:160px;">Next Round →</button>
+    <button class="btn btn-gold" id="restartBtn" onclick="restart()" style="display:none;min-width:160px;">Play Again 🏆</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const WORLD = [
+  { q: "Order these ancient civilisations from earliest to latest:",
+    items: [
+      { name:"Ancient Egypt begins", emoji:"🏺", era:"c.3100 BC", year:-3100 },
+      { name:"Shang Dynasty, China", emoji:"🐉", era:"c.1600 BC", year:-1600 },
+      { name:"Ancient Greece flourishes", emoji:"🏛️", era:"c.800 BC", year:-800 },
+      { name:"Roman Empire founded", emoji:"⚔️", era:"27 BC", year:-27 },
+    ]
+  },
+  { q: "Order these world events from earliest to latest:",
+    items: [
+      { name:"Columbus reaches the Americas", emoji:"⛵", era:"1492", year:1492 },
+      { name:"French Revolution", emoji:"🗼", era:"1789", year:1789 },
+      { name:"World War Two ends", emoji:"✈️", era:"1945", year:1945 },
+      { name:"First Moon Landing", emoji:"🌕", era:"1969", year:1969 },
+    ]
+  },
+  { q: "Put these prehistoric ages in order:",
+    items: [
+      { name:"Stone Age", emoji:"🪨", era:"before 3000 BC", year:-10000 },
+      { name:"Bronze Age", emoji:"🛡️", era:"c.3000 BC", year:-3000 },
+      { name:"Iron Age", emoji:"⚒️", era:"c.1200 BC", year:-1200 },
+      { name:"Middle Ages begin", emoji:"🏰", era:"c.500 AD", year:500 },
+    ]
+  },
+  { q: "Order these great civilisations:",
+    items: [
+      { name:"Sumer — first cities", emoji:"🏺", era:"c.4500 BC", year:-4500 },
+      { name:"Maya Civilisation", emoji:"🌽", era:"c.2000 BC", year:-2000 },
+      { name:"Ancient Rome", emoji:"🦅", era:"c.700 BC", year:-700 },
+      { name:"Mongol Empire", emoji:"🐎", era:"1206 AD", year:1206 },
+    ]
+  },
+  { q: "Order these inventions and discoveries:",
+    items: [
+      { name:"Writing first invented", emoji:"✍️", era:"c.3200 BC", year:-3200 },
+      { name:"Printing Press invented", emoji:"📖", era:"1440s", year:1440 },
+      { name:"Steam Engine developed", emoji:"🚂", era:"1760s", year:1760 },
+      { name:"World Wide Web invented", emoji:"💻", era:"1989", year:1989 },
+    ]
+  },
+  { q: "Order these famous empires from when they began:",
+    items: [
+      { name:"Persian Empire", emoji:"🌙", era:"c.550 BC", year:-550 },
+      { name:"Alexander the Great's Empire", emoji:"⚔️", era:"336 BC", year:-336 },
+      { name:"Ottoman Empire", emoji:"🕌", era:"1299 AD", year:1299 },
+      { name:"British Empire at its height", emoji:"🌍", era:"c.1815 AD", year:1815 },
+    ]
+  },
+  { q: "Order these great monuments from when they were built:",
+    items: [
+      { name:"Great Pyramid of Giza", emoji:"🔺", era:"c.2560 BC", year:-2560 },
+      { name:"Colosseum in Rome", emoji:"🏟️", era:"80 AD", year:80 },
+      { name:"Machu Picchu", emoji:"🏔️", era:"c.1450 AD", year:1450 },
+      { name:"Eiffel Tower", emoji:"🗼", era:"1889 AD", year:1889 },
+    ]
+  },
+  { q: "Order these key events in world history:",
+    items: [
+      { name:"Black Death sweeps Europe", emoji:"💀", era:"1347 AD", year:1347 },
+      { name:"American Independence declared", emoji:"🦅", era:"1776 AD", year:1776 },
+      { name:"First World War begins", emoji:"🪖", era:"1914 AD", year:1914 },
+      { name:"Berlin Wall falls", emoji:"🧱", era:"1989 AD", year:1989 },
+    ]
+  },
+  { q: "Order these rulers from when they lived:",
+    items: [
+      { name:"Julius Caesar rules Rome", emoji:"🦅", era:"c.60 BC", year:-60 },
+      { name:"Charlemagne rules Europe", emoji:"👑", era:"800 AD", year:800 },
+      { name:"Genghis Khan conquers Asia", emoji:"🐎", era:"1206 AD", year:1206 },
+      { name:"Napoleon becomes Emperor", emoji:"🎖️", era:"1804 AD", year:1804 },
+    ]
+  },
+  { q: "Order these great religions from when they began:",
+    items: [
+      { name:"Hinduism develops", emoji:"🕉️", era:"c.2300 BC", year:-2300 },
+      { name:"Buddhism founded", emoji:"☸️", era:"c.500 BC", year:-500 },
+      { name:"Christianity spreads", emoji:"✝️", era:"c.30 AD", year:30 },
+      { name:"Islam founded", emoji:"☪️", era:"622 AD", year:622 },
+    ]
+  },
+  { q: "Order these scientific breakthroughs:",
+    items: [
+      { name:"Galileo studies the heavens", emoji:"🔭", era:"c.1610 AD", year:1610 },
+      { name:"Newton describes gravity", emoji:"🍎", era:"1687 AD", year:1687 },
+      { name:"Darwin publishes his theory of evolution", emoji:"🐢", era:"1859 AD", year:1859 },
+      { name:"DNA structure discovered", emoji:"🧬", era:"1953 AD", year:1953 },
+    ]
+  },
+  { q: "Order these explorers from when they made their famous journeys:",
+    items: [
+      { name:"Marco Polo travels to China", emoji:"🧭", era:"1271 AD", year:1271 },
+      { name:"Columbus reaches the Americas", emoji:"⛵", era:"1492 AD", year:1492 },
+      { name:"Magellan sails around the world", emoji:"🌏", era:"1519 AD", year:1519 },
+      { name:"Captain Cook reaches Australia", emoji:"🦘", era:"1770 AD", year:1770 },
+    ]
+  },
+];
+
+const BRITAIN = [
+  { q: "Order these events in British history:",
+    items: [
+      { name:"Romans arrive in Britain", emoji:"🦅", era:"43 AD", year:43 },
+      { name:"Battle of Hastings", emoji:"⚔️", era:"1066 AD", year:1066 },
+      { name:"Magna Carta signed", emoji:"📜", era:"1215 AD", year:1215 },
+      { name:"Spanish Armada defeated", emoji:"⛵", era:"1588 AD", year:1588 },
+    ]
+  },
+  { q: "Order these British monarchs by when they first came to the throne:",
+    items: [
+      { name:"William the Conqueror", emoji:"🏰", era:"from 1066", year:1066 },
+      { name:"Henry VIII", emoji:"👑", era:"from 1509", year:1509 },
+      { name:"Queen Victoria", emoji:"🎩", era:"from 1837", year:1837 },
+      { name:"Elizabeth II", emoji:"💂", era:"from 1952", year:1952 },
+    ]
+  },
+  { q: "Order these events in British history:",
+    items: [
+      { name:"Stone Age settlers arrive", emoji:"🪨", era:"c.4000 BC", year:-4000 },
+      { name:"Vikings raid Britain", emoji:"🪓", era:"793 AD", year:793 },
+      { name:"Great Fire of London", emoji:"🔥", era:"1666 AD", year:1666 },
+      { name:"First World War begins", emoji:"🪖", era:"1914 AD", year:1914 },
+    ]
+  },
+  { q: "Order these important moments in British history:",
+    items: [
+      { name:"Gunpowder Plot", emoji:"💣", era:"1605 AD", year:1605 },
+      { name:"Act of Union — UK formed", emoji:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", era:"1707 AD", year:1707 },
+      { name:"Industrial Revolution begins", emoji:"🏭", era:"c.1760 AD", year:1760 },
+      { name:"Women get the vote", emoji:"🗳️", era:"1918 AD", year:1918 },
+    ]
+  },
+  { q: "Order these periods of British history:",
+    items: [
+      { name:"Norman Conquest", emoji:"🏰", era:"from 1066 AD", year:1066 },
+      { name:"Tudor Period", emoji:"🌹", era:"1485 AD", year:1485 },
+      { name:"Victorian Era", emoji:"⚙️", era:"1837 AD", year:1837 },
+      { name:"Second World War", emoji:"✈️", era:"1939 AD", year:1939 },
+    ]
+  },
+  { q: "Order these ancient events on British soil:",
+    items: [
+      { name:"Stonehenge built", emoji:"🪨", era:"c.3000 BC", year:-3000 },
+      { name:"Celts arrive in Britain", emoji:"🌀", era:"c.600 BC", year:-600 },
+      { name:"Romans leave Britain", emoji:"🦅", era:"410 AD", year:410 },
+      { name:"Anglo-Saxons settle Britain", emoji:"⚔️", era:"c.450 AD", year:450 },
+    ]
+  },
+  { q: "Order these British monarchs by when they reigned:",
+    items: [
+      { name:"King Alfred the Great", emoji:"📜", era:"from 871 AD", year:871 },
+      { name:"Richard the Lionheart", emoji:"🦁", era:"from 1189 AD", year:1189 },
+      { name:"Elizabeth I", emoji:"👸", era:"from 1558 AD", year:1558 },
+      { name:"Charles II", emoji:"👑", era:"from 1660 AD", year:1660 },
+    ]
+  },
+  { q: "Order these famous battles in British history:",
+    items: [
+      { name:"Battle of Hastings", emoji:"⚔️", era:"1066 AD", year:1066 },
+      { name:"Battle of Agincourt", emoji:"🏹", era:"1415 AD", year:1415 },
+      { name:"Battle of Trafalgar", emoji:"⛵", era:"1805 AD", year:1805 },
+      { name:"Battle of the Somme", emoji:"🪖", era:"1916 AD", year:1916 },
+    ]
+  },
+  { q: "Order these British inventions:",
+    items: [
+      { name:"Printing press arrives in Britain", emoji:"📖", era:"1476 AD", year:1476 },
+      { name:"Steam engine improved by Watt", emoji:"🚂", era:"1769 AD", year:1769 },
+      { name:"Telephone invented (Bell)", emoji:"☎️", era:"1876 AD", year:1876 },
+      { name:"World Wide Web (Berners-Lee)", emoji:"🌐", era:"1989 AD", year:1989 },
+    ]
+  },
+  { q: "Order these events in more recent British history:",
+    items: [
+      { name:"NHS founded", emoji:"🏥", era:"1948 AD", year:1948 },
+      { name:"Britain joins the EEC", emoji:"🇪🇺", era:"1973 AD", year:1973 },
+      { name:"First female Prime Minister", emoji:"👩‍💼", era:"1979 AD", year:1979 },
+      { name:"Brexit — Britain leaves the EU", emoji:"🇬🇧", era:"2020 AD", year:2020 },
+    ]
+  },
+  { q: "Order these disasters in British history:",
+    items: [
+      { name:"Black Death arrives in Britain", emoji:"💀", era:"1348 AD", year:1348 },
+      { name:"Great Plague of London", emoji:"🐀", era:"1665 AD", year:1665 },
+      { name:"Irish Famine", emoji:"🌾", era:"1845 AD", year:1845 },
+      { name:"The Blitz — London bombed", emoji:"💣", era:"1940 AD", year:1940 },
+    ]
+  },
+  { q: "Order these events from Scottish and Welsh history:",
+    items: [
+      { name:"Battle of Bannockburn", emoji:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", era:"1314 AD", year:1314 },
+      { name:"Wales joined to England", emoji:"🐉", era:"1536 AD", year:1536 },
+      { name:"Jacobite Rebellion", emoji:"⚔️", era:"1745 AD", year:1745 },
+      { name:"Scottish Parliament re-established", emoji:"🏛️", era:"1999 AD", year:1999 },
+    ]
+  },
+];
+
+const MIXED_EXTRA = [
+  { q: "Order these events mixing world and British history:",
+    items: [
+      { name:"Great Wall of China built", emoji:"🧱", era:"c.221 BC", year:-221 },
+      { name:"Battle of Hastings", emoji:"⚔️", era:"1066 AD", year:1066 },
+      { name:"Renaissance in Europe", emoji:"🎨", era:"c.1400s", year:1400 },
+      { name:"End of apartheid in South Africa", emoji:"🕊️", era:"1994 AD", year:1994 },
+    ]
+  },
+  { q: "Order these events from world and British history:",
+    items: [
+      { name:"Olympic Games begin in ancient Greece", emoji:"🏅", era:"776 BC", year:-776 },
+      { name:"Magna Carta signed", emoji:"📜", era:"1215 AD", year:1215 },
+      { name:"American Declaration of Independence", emoji:"🦅", era:"1776 AD", year:1776 },
+      { name:"Fall of the Berlin Wall", emoji:"🧱", era:"1989 AD", year:1989 },
+    ]
+  },
+  { q: "Order these explorers and adventurers:",
+    items: [
+      { name:"Alexander the Great reaches India", emoji:"⚔️", era:"326 BC", year:-326 },
+      { name:"Ibn Battuta begins his travels", emoji:"🧭", era:"1325 AD", year:1325 },
+      { name:"Captain Cook reaches Australia", emoji:"⛵", era:"1770 AD", year:1770 },
+      { name:"Edmund Hillary climbs Everest", emoji:"🏔️", era:"1953 AD", year:1953 },
+    ]
+  },
+  { q: "Order these events mixing world and British history:",
+    items: [
+      { name:"Vikings reach Britain", emoji:"🪓", era:"793 AD", year:793 },
+      { name:"Black Death across Europe", emoji:"💀", era:"1347 AD", year:1347 },
+      { name:"Industrial Revolution in Britain", emoji:"🏭", era:"c.1760 AD", year:1760 },
+      { name:"First World War", emoji:"🪖", era:"1914 AD", year:1914 },
+    ]
+  },
+  { q: "Order these famous leaders from when they lived:",
+    items: [
+      { name:"Cleopatra rules Egypt", emoji:"🏺", era:"c.51 BC", year:-51 },
+      { name:"Joan of Arc leads France", emoji:"⚔️", era:"1429 AD", year:1429 },
+      { name:"Winston Churchill leads Britain", emoji:"🇬🇧", era:"1940 AD", year:1940 },
+      { name:"Nelson Mandela becomes President", emoji:"🕊️", era:"1994 AD", year:1994 },
+    ]
+  },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let mode = 'world';
+let rounds = [], currentRound = 0, score = 0;
+let roundResults = [], hintUsed = false, answered = false;
+let selectedCard = null;
+let slotContents = [];
+
+// ============================================================
+// INIT
+// ============================================================
+function buildStars() {
+  const sf = document.getElementById('starfield');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.2 + 0.4;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;`;
+    sf.appendChild(s);
+  }
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) { const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+function setMode(m, btn) {
+  mode = m;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  restart();
+}
+
+function getRounds() {
+  let pool;
+  if (mode === 'world') pool = WORLD;
+  else if (mode === 'britain') pool = BRITAIN;
+  else pool = [...WORLD.slice(0,5), ...BRITAIN.slice(0,5), ...MIXED_EXTRA];
+  return shuffle(pool).slice(0, 10);
+}
+
+function restart() {
+  score = 0; currentRound = 0; roundResults = [];
+  rounds = getRounds(); updateHUD(); loadRound();
+}
+
+// ============================================================
+// ROUND
+// ============================================================
+function loadRound() {
+  answered = false; hintUsed = false; selectedCard = null;
+  slotContents = [null, null, null, null];
+
+  document.getElementById('questionLabel').textContent = rounds[currentRound].q;
+  buildProgressTrack();
+
+  const poolItems = shuffle(rounds[currentRound].items);
+  renderPool(poolItems);
+  renderSlots();
+
+  document.getElementById('hintBox').className = 'hint-box';
+  document.getElementById('answerReveal').className = 'answer-reveal';
+  document.getElementById('answerReveal').innerHTML = '<div class="answer-reveal-title">Correct order:</div>';
+  document.getElementById('resultBanner').className = 'result-banner';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('restartBtn').style.display = 'none';
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderPool(itemsOrdered) {
+  const pool = document.getElementById('cardPool');
+  pool.innerHTML = '';
+  const inSlot = slotContents.filter(Boolean).map(i => i.name);
+  // preserve the order passed in (shuffled on first load, stable thereafter)
+  const poolOrder = itemsOrdered || rounds[currentRound].items;
+  poolOrder.forEach(item => {
+    if (!inSlot.includes(item.name)) pool.appendChild(makeCard(item, 'pool'));
+  });
+  // Re-highlight selected card if still in pool
+  if (selectedCard) {
+    pool.querySelectorAll('.hcard').forEach(c => {
+      if (c.dataset.name === selectedCard.name) c.classList.add('selected');
+    });
+  }
+}
+
+function renderSlots() {
+  const panel = document.getElementById('slotsPanel');
+  panel.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'slot' + (slotContents[i] ? ' slot-ready' : '') + (answered ? ' locked' : '');
+    // Show pulsing target on empty slots only when a card is selected
+    if (!slotContents[i] && selectedCard && !answered) slot.classList.add('slot-target');
+
+    const num = document.createElement('span');
+    num.className = 'slot-num';
+    num.textContent = i + 1;
+    slot.appendChild(num);
+
+    if (slotContents[i]) {
+      slot.appendChild(makeCard(slotContents[i], 'slot-' + i));
+    } else {
+      const hint = document.createElement('span');
+      hint.className = 'slot-empty-hint';
+      hint.textContent = i === 0 ? 'earliest…' : i === 3 ? 'latest…' : '…';
+      slot.appendChild(hint);
+    }
+
+    slot.addEventListener('click', () => onSlotClick(i));
+    panel.appendChild(slot);
+  }
+}
+
+function makeCard(item, location) {
+  const card = document.createElement('div');
+  card.className = 'hcard';
+  card.dataset.name = item.name;
+  card.dataset.year = item.year;
+  card.dataset.era = item.era;
+  card.innerHTML = `
+    <span class="card-emoji">${item.emoji}</span>
+    <span class="card-text">
+      <span class="card-name">${item.name}</span>
+      <span class="card-era">${item.era}</span>
+    </span>`;
+  card.addEventListener('click', () => onCardClick(item, location));
+  return card;
+}
+
+// ============================================================
+// INTERACTION — tap to select, tap slot to place
+// ============================================================
+function onCardClick(item, location) {
+  if (answered) return;
+
+  if (location.startsWith('slot-')) {
+    // Pick card back out of slot
+    const idx = parseInt(location.split('-')[1]);
+    slotContents[idx] = null;
+    selectedCard = item;
+    rebuildView();
+    return;
+  }
+
+  // Pool card
+  if (selectedCard && selectedCard.name === item.name) {
+    // Deselect
+    selectedCard = null;
+    rebuildView();
+    return;
+  }
+
+  selectedCard = item;
+  rebuildView();
+}
+
+function onSlotClick(idx) {
+  if (answered) return;
+
+  if (!selectedCard) {
+    // Pick up whatever is in the slot
+    if (slotContents[idx]) {
+      selectedCard = slotContents[idx];
+      slotContents[idx] = null;
+      rebuildView();
+    }
+    return;
+  }
+
+  // Swap if something already in this slot
+  const previous = slotContents[idx];
+  slotContents[idx] = selectedCard;
+  selectedCard = previous || null; // if something was there, hold it
+  rebuildView();
+}
+
+function rebuildView() {
+  renderPool();
+  renderSlots();
+}
+
+// ============================================================
+// GAME LOGIC
+// ============================================================
+function checkAnswer() {
+  if (answered) return;
+  if (slotContents.some(s => !s)) {
+    showBanner(false, '📜 Not yet!', 'Place all four cards in the numbered slots first.');
+    return;
+  }
+
+  const round = rounds[currentRound];
+  const sorted = [...round.items].sort((a,b) => a.year - b.year);
+  let allCorrect = true;
+
+  answered = true;
+
+  const slotEls = document.getElementById('slotsPanel').querySelectorAll('.slot');
+  slotContents.forEach((item, i) => {
+    const correct = item.year === sorted[i].year;
+    if (!correct) allCorrect = false;
+    const card = slotEls[i].querySelector('.hcard');
+    if (card) {
+      card.classList.add(correct ? 'correct' : 'wrong');
+      card.classList.add('locked');
+      const era = card.querySelector('.card-era');
+      if (era) era.style.visibility = 'visible';
+    }
+    slotEls[i].classList.add('locked');
+  });
+
+  if (allCorrect) {
+    score += hintUsed ? 5 : 10;
+    roundResults.push(true);
+    showBanner(true, '🏆 Brilliant!', hintUsed ? '+5 points (hint used) — well done!' : '+10 points! Perfect order!');
+  } else {
+    score += 2;
+    roundResults.push(false);
+    showBanner(false, '⚔️ Not quite!', '+2 points for trying. Correct order is below.');
+    showCorrectOrder(sorted);
+  }
+
+  updateHUD(); buildProgressTrack();
+  document.getElementById('nextBtn').style.display = currentRound < rounds.length-1 ? 'inline-block' : 'none';
+  document.getElementById('restartBtn').style.display = currentRound >= rounds.length-1 ? 'inline-block' : 'none';
+}
+
+function showCorrectOrder(sorted) {
+  const ar = document.getElementById('answerReveal');
+  ar.innerHTML = '<div class="answer-reveal-title">Correct order:</div>';
+  sorted.forEach((item, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'answer-chip';
+    chip.innerHTML = `<span class="chip-num">${i+1}.</span>${item.emoji} ${item.name} <span style="opacity:0.5">(${item.era})</span>`;
+    ar.appendChild(chip);
+  });
+  ar.className = 'answer-reveal show';
+}
+
+function nextRound() {
+  if (currentRound < rounds.length-1) { currentRound++; loadRound(); }
+}
+
+function showHint() {
+  if (answered) return;
+  hintUsed = true;
+  document.getElementById('hintBox').textContent = '💡 Hint: Think about which happened in ancient times, which in the Middle Ages, and which are more recent history.';
+  document.getElementById('hintBox').className = 'hint-box show';
+}
+
+function clearSlots() {
+  if (answered) return;
+  slotContents = [null,null,null,null];
+  selectedCard = null;
+  rebuildView();
+}
+
+function showBanner(success, title, msg) {
+  const b = document.getElementById('resultBanner');
+  b.className = 'result-banner show ' + (success ? 'success' : 'fail');
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultMsg').textContent = msg;
+}
+
+function buildProgressTrack() {
+  const pt = document.getElementById('progressTrack');
+  pt.innerHTML = '';
+  for (let i = 0; i < rounds.length; i++) {
+    const d = document.createElement('div');
+    d.className = 'prog-dot' + (i < roundResults.length ? (roundResults[i] ? ' correct-dot' : ' wrong-dot') : i === currentRound ? ' current' : '');
+    pt.appendChild(d);
+  }
+}
+
+function updateHUD() {
+  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('roundDisplay').textContent = currentRound + 1;
+  const pct = score / (rounds.length * 10);
+  document.getElementById('starsDisplay').textContent = pct>=0.9?'⭐⭐⭐':pct>=0.6?'⭐⭐☆':pct>=0.3?'⭐☆☆':'☆☆☆';
+}
+
+buildStars();
+restart();
+</script>
+</body>
+</html>
