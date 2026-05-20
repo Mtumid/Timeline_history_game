@@ -7,310 +7,227 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --parchment: #f5ead8;
-  --ink: #2c1a0e;
-  --gold: #c9861f;
-  --gold-light: #e8b84b;
-  --bronze: #8b5e3c;
-  --deep-red: #7a1f1f;
-  --green: #2e6b3e;
-  --shadow: rgba(44,26,14,0.22);
-  --stone: #b5a48a;
+  --parchment: #f5ead8; --ink: #2c1a0e; --gold: #c9861f; --gold-light: #e8b84b;
+  --bronze: #8b5e3c; --deep-red: #7a1f1f; --green: #2e6b3e;
+  --shadow: rgba(44,26,14,0.22); --stone: #b5a48a;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   background: var(--ink);
-  background-image:
-    radial-gradient(ellipse at 20% 10%, #3a2010 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 90%, #1a0e05 0%, transparent 55%);
-  min-height: 100vh;
-  font-family: 'Crimson Text', serif;
-  color: var(--ink);
-  overflow-x: hidden;
+  background-image: radial-gradient(ellipse at 20% 10%,#3a2010 0%,transparent 55%),
+                    radial-gradient(ellipse at 80% 90%,#1a0e05 0%,transparent 55%);
+  min-height: 100vh; font-family: 'Crimson Text', serif; color: var(--ink); overflow-x: hidden;
 }
 .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
 .star  { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite alternate; }
-@keyframes twinkle { from { opacity: 0.15; } to { opacity: 0.85; } }
-
+@keyframes twinkle { from{opacity:.15} to{opacity:.85} }
 .page-wrap { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 20px 14px 56px; }
 
-/* ── HEADER ── */
+/* HEADER */
 header { text-align: center; padding: 22px 0 14px; border-bottom: 2px solid var(--gold); margin-bottom: 16px; }
-.title-main { font-family: 'Cinzel Decorative', serif; font-size: clamp(1.4rem,5vw,2.2rem); color: var(--gold-light); letter-spacing: 2px; text-shadow: 0 2px 12px rgba(201,134,31,0.5); }
-.title-sub  { font-size: 0.95rem; color: var(--stone); margin-top: 5px; font-style: italic; }
+.title-main { font-family:'Cinzel Decorative',serif; font-size:clamp(1.4rem,5vw,2.2rem); color:var(--gold-light); letter-spacing:2px; text-shadow:0 2px 12px rgba(201,134,31,.5); }
+.title-sub  { font-size:.95rem; color:var(--stone); margin-top:5px; font-style:italic; }
 
-/* ── VIEW TABS ── */
-.view-tabs { display: flex; margin-bottom: 16px; border: 1.5px solid rgba(201,134,31,0.35); border-radius: 10px; overflow: hidden; }
-.view-tab  {
-  flex: 1; padding: 11px 10px; background: rgba(245,234,216,0.04);
-  border: none; border-right: 1.5px solid rgba(201,134,31,0.25);
-  color: var(--stone); font-family: 'Cinzel Decorative', serif;
-  font-size: 0.66rem; letter-spacing: 1px; cursor: pointer; transition: all 0.18s;
-}
-.view-tab:last-child { border-right: none; }
-.view-tab.active { background: rgba(201,134,31,0.18); color: var(--gold-light); }
-.view-tab:hover:not(.active) { background: rgba(201,134,31,0.08); color: var(--parchment); }
+/* VIEW TABS */
+.view-tabs { display:flex; margin-bottom:16px; border:1.5px solid rgba(201,134,31,.35); border-radius:10px; overflow:hidden; }
+.view-tab  { flex:1; padding:11px 10px; background:rgba(245,234,216,.04); border:none; border-right:1.5px solid rgba(201,134,31,.25); color:var(--stone); font-family:'Cinzel Decorative',serif; font-size:.66rem; letter-spacing:1px; cursor:pointer; transition:all .18s; }
+.view-tab:last-child { border-right:none; }
+.view-tab.active { background:rgba(201,134,31,.18); color:var(--gold-light); }
+.view-tab:hover:not(.active) { background:rgba(201,134,31,.08); color:var(--parchment); }
 
-/* ── HUD ── */
-.hud { display: flex; justify-content: space-between; align-items: center; background: rgba(245,234,216,0.06); border: 1px solid rgba(201,134,31,0.28); border-radius: 10px; padding: 9px 16px; margin-bottom: 14px; gap: 8px; flex-wrap: wrap; }
-.hud-item { color: var(--stone); font-size: 0.9rem; }
-.hud-item span { font-family: 'Exo 2', sans-serif; font-weight: 700; color: var(--gold-light); font-size: 1.1rem; }
-.stars-row { font-size: 1.4rem; letter-spacing: 2px; }
+/* HUD */
+.hud { display:flex; justify-content:space-between; align-items:center; background:rgba(245,234,216,.06); border:1px solid rgba(201,134,31,.28); border-radius:10px; padding:9px 16px; margin-bottom:14px; gap:8px; flex-wrap:wrap; }
+.hud-item { color:var(--stone); font-size:.9rem; }
+.hud-item span { font-family:'Exo 2',sans-serif; font-weight:700; color:var(--gold-light); font-size:1.1rem; }
+.stars-row { font-size:1.4rem; letter-spacing:2px; }
 
-/* ── MODE BAR ── */
-.mode-bar { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-.mode-btn {
-  flex: 1; min-width: 58px; padding: 8px 5px;
-  background: rgba(245,234,216,0.05); border: 1.5px solid rgba(201,134,31,0.3); border-radius: 8px;
-  color: var(--stone); font-family: 'Crimson Text', serif; font-size: 0.86rem;
-  cursor: pointer; transition: all 0.18s; text-align: center;
-}
-.mode-btn:hover, .mode-btn.active { background: rgba(201,134,31,0.16); border-color: var(--gold); color: var(--gold-light); }
-.mode-icon { font-size: 1.1rem; display: block; margin-bottom: 1px; }
+/* MODE BAR */
+.mode-bar { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+.mode-btn  { flex:1; min-width:58px; padding:8px 5px; background:rgba(245,234,216,.05); border:1.5px solid rgba(201,134,31,.3); border-radius:8px; color:var(--stone); font-family:'Crimson Text',serif; font-size:.86rem; cursor:pointer; transition:all .18s; text-align:center; }
+.mode-btn:hover,.mode-btn.active { background:rgba(201,134,31,.16); border-color:var(--gold); color:var(--gold-light); }
+.mode-icon { font-size:1.1rem; display:block; margin-bottom:1px; }
 
-/* ── PROGRESS ── */
-.progress-track { display: flex; gap: 5px; margin-bottom: 14px; flex-wrap: wrap; }
-.prog-dot { width: 11px; height: 11px; border-radius: 50%; background: rgba(181,164,138,0.18); border: 1.5px solid rgba(181,164,138,0.28); transition: background 0.3s; }
-.prog-dot.current     { background: rgba(201,134,31,0.5); border-color: var(--gold); }
-.prog-dot.correct-dot { background: var(--green); border-color: #5abd7a; }
-.prog-dot.wrong-dot   { background: var(--deep-red); border-color: #e05050; }
+/* PROGRESS */
+.progress-track { display:flex; gap:5px; margin-bottom:14px; flex-wrap:wrap; }
+.prog-dot { width:11px; height:11px; border-radius:50%; background:rgba(181,164,138,.18); border:1.5px solid rgba(181,164,138,.28); transition:background .3s; }
+.prog-dot.current     { background:rgba(201,134,31,.5); border-color:var(--gold); }
+.prog-dot.correct-dot { background:var(--green); border-color:#5abd7a; }
+.prog-dot.wrong-dot   { background:var(--deep-red); border-color:#e05050; }
 
-/* ── QUESTION / INSTRUCTION ── */
-.question-label { font-family: 'Crimson Text', serif; font-size: 1.05rem; font-style: italic; color: var(--stone); margin-bottom: 12px; text-align: center; line-height: 1.45; }
-.instruction    { text-align: center; margin-bottom: 12px; font-family: 'Exo 2', sans-serif; font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(181,164,138,0.45); }
+/* QUESTION */
+.question-label { font-family:'Crimson Text',serif; font-size:1.05rem; font-style:italic; color:var(--stone); margin-bottom:12px; text-align:center; line-height:1.45; }
+.instruction    { text-align:center; margin-bottom:12px; font-family:'Exo 2',sans-serif; font-size:.7rem; letter-spacing:1.5px; text-transform:uppercase; color:rgba(181,164,138,.45); }
 
-/* ── TWO-COLUMN LAYOUT ── */
-.game-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; align-items: start; }
-@media (max-width: 420px) { .game-layout { grid-template-columns: 1fr; } }
-.panel-label { font-family: 'Exo 2', sans-serif; font-size: 0.66rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(181,164,138,0.45); margin-bottom: 7px; }
-.card-pool   { display: flex; flex-direction: column; gap: 7px; background: rgba(0,0,0,0.22); border: 1.5px dashed rgba(201,134,31,0.22); border-radius: 10px; padding: 10px; min-height: 56px; }
-.slots-panel { display: flex; flex-direction: column; gap: 7px; background: rgba(0,0,0,0.18); border: 1.5px solid rgba(201,134,31,0.18); border-radius: 10px; padding: 10px; min-height: 56px; position: relative; }
-.slots-panel::before { content: '1 = earliest'; position: absolute; top: -9px; left: 12px; background: #2c1a0e; color: rgba(181,164,138,0.4); font-family: 'Exo 2', sans-serif; font-size: 0.58rem; letter-spacing: 1px; text-transform: uppercase; padding: 0 5px; }
+/* LAYOUT */
+.game-layout { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; align-items:start; }
+@media(max-width:420px){ .game-layout { grid-template-columns:1fr; } }
+.panel-label { font-family:'Exo 2',sans-serif; font-size:.66rem; letter-spacing:2px; text-transform:uppercase; color:rgba(181,164,138,.45); margin-bottom:7px; }
+.card-pool   { display:flex; flex-direction:column; gap:7px; background:rgba(0,0,0,.22); border:1.5px dashed rgba(201,134,31,.22); border-radius:10px; padding:10px; min-height:56px; }
+.slots-panel { display:flex; flex-direction:column; gap:7px; background:rgba(0,0,0,.18); border:1.5px solid rgba(201,134,31,.18); border-radius:10px; padding:10px; min-height:56px; position:relative; }
+.slots-panel::before { content:'1 = earliest'; position:absolute; top:-9px; left:12px; background:#2c1a0e; color:rgba(181,164,138,.4); font-family:'Exo 2',sans-serif; font-size:.58rem; letter-spacing:1px; text-transform:uppercase; padding:0 5px; }
 
-/* ── SLOTS ── */
-.slot { display: flex; align-items: center; gap: 8px; min-height: 50px; border: 2px dashed rgba(201,134,31,0.25); border-radius: 8px; padding: 4px 8px; cursor: pointer; transition: border-color 0.18s, background 0.18s; }
-.slot:hover:not(.locked) { border-color: rgba(201,134,31,0.55); background: rgba(201,134,31,0.04); }
-.slot.slot-ready  { border-color: rgba(201,134,31,0.45); }
-.slot.slot-target { border-color: var(--gold-light); background: rgba(232,184,75,0.08); animation: pulse-slot 0.9s infinite alternate; }
-@keyframes pulse-slot { from { border-color: rgba(232,184,75,0.4); } to { border-color: var(--gold-light); } }
-.slot.locked { cursor: default; }
-.slot-num        { font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 0.82rem; color: rgba(181,164,138,0.38); min-width: 16px; flex-shrink: 0; }
-.slot-empty-hint { font-family: 'Crimson Text', serif; font-style: italic; color: rgba(181,164,138,0.25); font-size: 0.8rem; flex: 1; }
+/* SLOTS */
+.slot { display:flex; align-items:center; gap:8px; min-height:50px; border:2px dashed rgba(201,134,31,.25); border-radius:8px; padding:4px 8px; cursor:pointer; transition:border-color .18s,background .18s; }
+.slot:hover:not(.locked) { border-color:rgba(201,134,31,.55); background:rgba(201,134,31,.04); }
+.slot.slot-ready  { border-color:rgba(201,134,31,.45); }
+.slot.slot-target { border-color:var(--gold-light); background:rgba(232,184,75,.08); animation:pulse-slot .9s infinite alternate; }
+@keyframes pulse-slot { from{border-color:rgba(232,184,75,.4)} to{border-color:var(--gold-light)} }
+.slot.locked { cursor:default; }
+.slot-num        { font-family:'Exo 2',sans-serif; font-weight:700; font-size:.82rem; color:rgba(181,164,138,.38); min-width:16px; flex-shrink:0; }
+.slot-empty-hint { font-family:'Crimson Text',serif; font-style:italic; color:rgba(181,164,138,.25); font-size:.8rem; flex:1; }
 
-/* ── CARDS ── */
-.hcard {
-  background: linear-gradient(135deg, #f5ead8 85%, #e8d5b0 100%);
-  border: 2px solid var(--bronze); border-radius: 8px;
-  padding: 8px 11px; cursor: pointer; user-select: none;
-  font-family: 'Crimson Text', serif; color: var(--ink);
-  display: flex; align-items: center; gap: 9px;
-  box-shadow: 0 2px 7px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.5);
-  transition: transform 0.14s, box-shadow 0.14s, border-color 0.14s;
-  touch-action: manipulation; width: 100%;
-}
-.hcard:active  { transform: scale(0.97); }
-.hcard.selected { border-color: var(--gold-light); box-shadow: 0 0 0 3px rgba(232,184,75,0.3), 0 4px 12px var(--shadow); transform: translateY(-2px); background: linear-gradient(135deg, #fff8ec 85%, #f5e6be 100%); }
-.hcard.correct  { border-color: #3a9b55; background: linear-gradient(135deg, #d4edda 85%, #b4dfc4 100%); cursor: default; }
-.hcard.wrong    { border-color: #b03030; background: linear-gradient(135deg, #f8d7da 85%, #f0b5ba 100%); cursor: default; animation: shake 0.38s; }
-.hcard.locked   { cursor: default; }
-.card-emoji { font-size: 1.35rem; flex-shrink: 0; line-height: 1; }
-.card-text  { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-.card-name  { font-weight: 600; font-size: 0.88rem; line-height: 1.25; }
-.card-era   { font-size: 0.7rem; color: var(--bronze); font-style: italic; margin-top: 1px; visibility: hidden; }
-.card-wiki  {
-  display: none; font-size: 0.6rem; color: rgba(106,158,207,0.75);
-  text-decoration: none; margin-top: 3px; font-family: 'Exo 2', sans-serif;
-  border-bottom: 1px dotted rgba(106,158,207,0.35); align-self: flex-start;
-  pointer-events: none;
-}
-.card-wiki.revealed { display: inline; pointer-events: auto; }
-.card-wiki:hover    { color: #9bc4e8; }
+/* CARDS */
+.hcard { background:linear-gradient(135deg,#f5ead8 85%,#e8d5b0 100%); border:2px solid var(--bronze); border-radius:8px; padding:8px 11px; cursor:pointer; user-select:none; font-family:'Crimson Text',serif; color:var(--ink); display:flex; align-items:center; gap:9px; box-shadow:0 2px 7px var(--shadow),inset 0 1px 0 rgba(255,255,255,.5); transition:transform .14s,box-shadow .14s,border-color .14s; touch-action:manipulation; width:100%; }
+.hcard:active   { transform:scale(.97); }
+.hcard.selected { border-color:var(--gold-light); box-shadow:0 0 0 3px rgba(232,184,75,.3),0 4px 12px var(--shadow); transform:translateY(-2px); background:linear-gradient(135deg,#fff8ec 85%,#f5e6be 100%); }
+.hcard.correct  { border-color:#3a9b55; background:linear-gradient(135deg,#d4edda 85%,#b4dfc4 100%); cursor:default; }
+.hcard.wrong    { border-color:#b03030; background:linear-gradient(135deg,#f8d7da 85%,#f0b5ba 100%); cursor:default; animation:shake .38s; }
+.hcard.locked   { cursor:default; }
+.card-emoji { font-size:1.35rem; flex-shrink:0; line-height:1; }
+.card-text  { display:flex; flex-direction:column; flex:1; min-width:0; }
+.card-name  { font-weight:600; font-size:.88rem; line-height:1.25; }
+.card-era   { font-size:.7rem; color:var(--bronze); font-style:italic; margin-top:1px; visibility:hidden; }
+.card-wiki  { display:none; font-size:.6rem; color:rgba(106,158,207,.75); text-decoration:none; margin-top:3px; font-family:'Exo 2',sans-serif; border-bottom:1px dotted rgba(106,158,207,.35); align-self:flex-start; pointer-events:none; }
+.card-wiki.revealed { display:inline; pointer-events:auto; }
+.card-wiki:hover    { color:#9bc4e8; }
 @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
 
-/* ── CONTROLS ── */
-.controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-.btn { font-family: 'Cinzel Decorative', serif; font-size: 0.7rem; letter-spacing: 0.8px; padding: 11px 14px; border: none; border-radius: 8px; cursor: pointer; transition: all 0.18s; flex: 1; min-width: 80px; }
-.btn-gold  { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--ink); box-shadow: 0 2px 10px rgba(201,134,31,0.32); }
-.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(201,134,31,0.48); }
-.btn-ghost { background: transparent; color: var(--stone); border: 1.5px solid rgba(181,164,138,0.28); }
-.btn-ghost:hover { border-color: var(--stone); color: var(--parchment); }
+/* CONTROLS */
+.controls { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.btn { font-family:'Cinzel Decorative',serif; font-size:.7rem; letter-spacing:.8px; padding:11px 14px; border:none; border-radius:8px; cursor:pointer; transition:all .18s; flex:1; min-width:80px; }
+.btn-gold  { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--ink); box-shadow:0 2px 10px rgba(201,134,31,.32); }
+.btn-gold:hover  { transform:translateY(-2px); box-shadow:0 4px 14px rgba(201,134,31,.48); }
+.btn-ghost { background:transparent; color:var(--stone); border:1.5px solid rgba(181,164,138,.28); }
+.btn-ghost:hover { border-color:var(--stone); color:var(--parchment); }
 
-/* ── RESULT / HINT / ANSWER ── */
-.result-banner { display: none; padding: 15px 16px; border-radius: 10px; margin-bottom: 12px; text-align: center; animation: fadeIn 0.32s; }
-.result-banner.show    { display: block; }
-.result-banner.success { background: rgba(46,107,62,0.18); border: 2px solid var(--green); color: #9cdeb0; }
-.result-banner.fail    { background: rgba(122,31,31,0.18); border: 2px solid var(--deep-red); color: #f0b5ba; }
-.result-banner h2 { font-family: 'Cinzel Decorative', serif; font-size: 1.05rem; margin-bottom: 4px; }
-.result-banner p  { font-size: 0.9rem; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+/* RESULT / HINT / ANSWER */
+.result-banner { display:none; padding:15px 16px; border-radius:10px; margin-bottom:12px; text-align:center; animation:fadeIn .32s; }
+.result-banner.show    { display:block; }
+.result-banner.success { background:rgba(46,107,62,.18); border:2px solid var(--green); color:#9cdeb0; }
+.result-banner.fail    { background:rgba(122,31,31,.18); border:2px solid var(--deep-red); color:#f0b5ba; }
+.result-banner h2 { font-family:'Cinzel Decorative',serif; font-size:1.05rem; margin-bottom:4px; }
+.result-banner p  { font-size:.9rem; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.hint-box { background:rgba(58,111,168,.1); border:1px solid rgba(58,111,168,.26); border-radius:8px; padding:10px 14px; margin-bottom:12px; color:#8ab4d8; font-size:.88rem; display:none; line-height:1.55; }
+.hint-box.show { display:block; }
+.answer-reveal { display:none; flex-direction:column; gap:5px; padding:12px; background:rgba(0,0,0,.2); border-radius:8px; margin-bottom:12px; }
+.answer-reveal.show { display:flex; }
+.answer-reveal-title { font-family:'Exo 2',sans-serif; font-size:.68rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--stone); margin-bottom:3px; }
+.answer-chip { background:rgba(201,134,31,.1); border:1px solid rgba(201,134,31,.32); border-radius:6px; padding:5px 10px; color:var(--gold-light); font-size:.8rem; font-family:'Exo 2',sans-serif; display:flex; gap:6px; align-items:center; }
+.chip-num { opacity:.45; }
+.next-wrap { text-align:center; margin-top:4px; }
 
-.hint-box { background: rgba(58,111,168,0.1); border: 1px solid rgba(58,111,168,0.26); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; color: #8ab4d8; font-size: 0.88rem; display: none; line-height: 1.55; }
-.hint-box.show { display: block; }
-
-.answer-reveal { display: none; flex-direction: column; gap: 5px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 12px; }
-.answer-reveal.show { display: flex; }
-.answer-reveal-title { font-family: 'Exo 2', sans-serif; font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone); margin-bottom: 3px; }
-.answer-chip { background: rgba(201,134,31,0.1); border: 1px solid rgba(201,134,31,0.32); border-radius: 6px; padding: 5px 10px; color: var(--gold-light); font-size: 0.8rem; font-family: 'Exo 2', sans-serif; display: flex; gap: 6px; align-items: center; }
-.chip-num { opacity: 0.45; }
-.next-wrap { text-align: center; margin-top: 4px; }
-
-
-/* ═══════════════════════════════════════
+/* ═══════════════════════════════
    LEARN SECTION
-═══════════════════════════════════════ */
-#learnSection { display: none; }
+═══════════════════════════════ */
+#learnSection { display:none; }
 
-.learn-intro {
-  text-align: center; padding: 2px 0 18px;
-  font-family: 'Crimson Text', serif; font-style: italic;
-  color: var(--stone); font-size: 0.93rem; line-height: 1.6;
-}
-.learn-intro strong { color: var(--gold-light); font-style: normal; font-family: 'Cinzel Decorative', serif; font-size: 0.85rem; display: block; margin-bottom: 4px; }
+.learn-intro { text-align:center; padding:2px 0 14px; font-family:'Crimson Text',serif; font-style:italic; color:var(--stone); font-size:.93rem; line-height:1.6; }
+.learn-intro strong { color:var(--gold-light); font-style:normal; font-family:'Cinzel Decorative',serif; font-size:.82rem; display:block; margin-bottom:4px; }
+
+/* Learn sub-tabs */
+.learn-tabs { display:flex; gap:7px; margin-bottom:14px; }
+.learn-tab  { flex:1; padding:9px 6px; background:rgba(245,234,216,.04); border:1.5px solid rgba(201,134,31,.28); border-radius:8px; color:var(--stone); font-family:'Crimson Text',serif; font-size:.88rem; cursor:pointer; transition:all .18s; text-align:center; }
+.learn-tab:hover,.learn-tab.active { background:rgba(201,134,31,.16); border-color:var(--gold); color:var(--gold-light); }
+.learn-tab-icon { font-size:1.1rem; display:block; margin-bottom:1px; }
 
 /* Full-bleed breakout */
-.tl-fullbleed {
-  width: 100vw; position: relative;
-  left: 50%; transform: translateX(-50%);
-  margin-bottom: 0;
-}
+.tl-fullbleed { width:100vw; position:relative; left:50%; transform:translateX(-50%); margin-bottom:0; }
 
 /* Zoom controls */
-.zoom-bar { display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding: 0 14px 8px; }
-.zoom-label { font-family: 'Exo 2', sans-serif; font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(181,164,138,0.4); margin-right: 2px; }
-.zoom-btn   { width: 28px; height: 28px; background: rgba(201,134,31,0.1); border: 1px solid rgba(201,134,31,0.3); border-radius: 6px; color: var(--gold-light); font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
-.zoom-btn:hover { background: rgba(201,134,31,0.22); }
-.zoom-level { font-family: 'Exo 2', sans-serif; font-size: 0.68rem; color: var(--stone); min-width: 38px; text-align: center; }
+.zoom-bar   { display:flex; align-items:center; justify-content:flex-end; gap:6px; padding:0 14px 8px; }
+.zoom-label { font-family:'Exo 2',sans-serif; font-size:.6rem; letter-spacing:1.5px; text-transform:uppercase; color:rgba(181,164,138,.4); margin-right:2px; }
+.zoom-btn   { width:28px; height:28px; background:rgba(201,134,31,.1); border:1px solid rgba(201,134,31,.3); border-radius:6px; color:var(--gold-light); font-size:1rem; font-weight:700; cursor:pointer; transition:all .15s; display:flex; align-items:center; justify-content:center; }
+.zoom-btn:hover { background:rgba(201,134,31,.22); }
+.zoom-level { font-family:'Exo 2',sans-serif; font-size:.68rem; color:var(--stone); min-width:38px; text-align:center; }
 
 /* Scroll container */
 .tl-scroll-outer {
-  overflow-x: auto; overflow-y: hidden; height: 300px;
-  background: linear-gradient(180deg, #100804 0%, #0a0502 50%, #100804 100%);
-  border-top: 1px solid rgba(201,134,31,0.18);
-  border-bottom: 1px solid rgba(201,134,31,0.18);
-  cursor: grab;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(201,134,31,0.28) rgba(0,0,0,0.2);
+  overflow-x:auto; overflow-y:hidden; height:300px;
+  background:linear-gradient(180deg,#100804 0%,#0a0502 50%,#100804 100%);
+  border-top:1px solid rgba(201,134,31,.18); border-bottom:1px solid rgba(201,134,31,.18);
+  cursor:grab; scrollbar-width:thin; scrollbar-color:rgba(201,134,31,.28) rgba(0,0,0,.2);
 }
-.tl-scroll-outer::-webkit-scrollbar { height: 4px; }
-.tl-scroll-outer::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-.tl-scroll-outer::-webkit-scrollbar-thumb { background: rgba(201,134,31,0.3); border-radius: 2px; }
-.tl-scroll-outer.grabbing { cursor: grabbing; }
+.tl-scroll-outer::-webkit-scrollbar { height:4px; }
+.tl-scroll-outer::-webkit-scrollbar-track { background:rgba(0,0,0,.3); }
+.tl-scroll-outer::-webkit-scrollbar-thumb { background:rgba(201,134,31,.3); border-radius:2px; }
+.tl-scroll-outer.grabbing { cursor:grabbing; }
+.tl-scroll-inner { height:100%; position:relative; transition:width .3s ease; }
 
-.tl-scroll-inner { height: 100%; position: relative; transition: width 0.3s ease; }
+/* Era bands */
+.era-band         { position:absolute; top:0; bottom:0; opacity:.17; }
+.era-band.ancient { background:linear-gradient(180deg,#a07028,#3a2005); }
+.era-band.medieval{ background:linear-gradient(180deg,#285020,#0d1e0a); }
+.era-band.earlymod{ background:linear-gradient(180deg,#204878,#080f20); }
+.era-band.industrial{background:linear-gradient(180deg,#502060,#1a0820); }
+.era-band.contemp { background:linear-gradient(180deg,#1a3a80,#060f28); }
+/* Britain eras */
+.era-band.roman   { background:linear-gradient(180deg,#8b2020,#350606); }
+.era-band.br-med  { background:linear-gradient(180deg,#285020,#0d1e0a); }
+.era-band.tudor   { background:linear-gradient(180deg,#602080,#1e0830); }
+.era-band.georgian{ background:linear-gradient(180deg,#183860,#060e20); }
+.era-band.br-mod  { background:linear-gradient(180deg,#801818,#280505); }
+/* Poland eras */
+.era-band.piast   { background:linear-gradient(180deg,#b8860b,#5a3e0a); }
+.era-band.jagiel  { background:linear-gradient(180deg,#7a2080,#2d0a40); }
+.era-band.common  { background:linear-gradient(180deg,#8b1a1a,#350606); }
+.era-band.part    { background:linear-gradient(180deg,#3a3a50,#14141e); }
+.era-band.modern  { background:linear-gradient(180deg,#1a3a80,#060f28); }
 
-/* Era colour bands */
-.era-band { position: absolute; top: 0; bottom: 0; opacity: 0.18; }
-.era-band.piast  { background: linear-gradient(180deg,#b8860b,#5a3e0a); }
-.era-band.jagiel { background: linear-gradient(180deg,#7a2080,#2d0a40); }
-.era-band.common { background: linear-gradient(180deg,#8b1a1a,#350606); }
-.era-band.part   { background: linear-gradient(180deg,#3a3a50,#14141e); }
-.era-band.modern { background: linear-gradient(180deg,#1a3a80,#060f28); }
+/* Era tags at top of band */
+.era-tag { position:absolute; top:0; height:20px; display:flex; align-items:center; justify-content:center; font-family:'Exo 2',sans-serif; font-size:.48rem; letter-spacing:1.6px; text-transform:uppercase; font-weight:600; pointer-events:none; white-space:nowrap; border-bottom:1px solid currentColor; opacity:.3; overflow:hidden; }
+.era-tag.ancient  { color:#d4a030; } .era-tag.medieval { color:#60b050; }
+.era-tag.earlymod { color:#5090d0; } .era-tag.industrial { color:#c060e0; }
+.era-tag.contemp  { color:#5090e0; }
+.era-tag.roman    { color:#e05050; } .era-tag.br-med   { color:#60b050; }
+.era-tag.tudor    { color:#b060e0; } .era-tag.georgian { color:#4080c0; }
+.era-tag.br-mod   { color:#e05050; }
+.era-tag.piast    { color:#d4a830; } .era-tag.jagiel   { color:#c060e0; }
+.era-tag.common   { color:#e05050; } .era-tag.part     { color:#8888aa; }
+.era-tag.modern   { color:#5090e0; }
 
-/* Era name tags at top of band */
-.era-tag {
-  position: absolute; top: 0; height: 22px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Exo 2', sans-serif; font-size: 0.5rem;
-  letter-spacing: 1.8px; text-transform: uppercase; font-weight: 600;
-  opacity: 0.45; pointer-events: none; white-space: nowrap;
-  border-bottom: 1px solid currentColor; opacity: 0.35;
-}
-.era-tag.piast  { color: #d4a830; border-color: rgba(212,168,48,0.2); }
-.era-tag.jagiel { color: #c060e0; border-color: rgba(192,96,224,0.2); }
-.era-tag.common { color: #e05050; border-color: rgba(224,80,80,0.2); }
-.era-tag.part   { color: #8888aa; border-color: rgba(136,136,170,0.2); }
-.era-tag.modern { color: #5090e0; border-color: rgba(80,144,224,0.2); }
-
-/* Spine */
-.tl-spine { position: absolute; left: 0; right: 0; height: 2px; top: 50%; transform: translateY(-50%); background: linear-gradient(90deg, transparent 0.2%, rgba(201,134,31,0.45) 1.5%, rgba(201,134,31,0.45) 98.5%, transparent 99.8%); }
-
-/* Year ticks */
-.tl-tick       { position: absolute; width: 1px; background: rgba(181,164,138,0.12); pointer-events: none; }
-.tl-tick-major { background: rgba(181,164,138,0.22); }
-.tl-tick-lbl   { position: absolute; font-family: 'Exo 2', sans-serif; font-size: 0.48rem; color: rgba(181,164,138,0.2); transform: translateX(-50%); pointer-events: none; white-space: nowrap; }
+/* Spine & ticks */
+.tl-spine    { position:absolute; left:0; right:0; height:2px; top:50%; transform:translateY(-50%); background:linear-gradient(90deg,transparent .2%,rgba(201,134,31,.45) 1.5%,rgba(201,134,31,.45) 98.5%,transparent 99.8%); }
+.tl-tick     { position:absolute; width:1px; background:rgba(181,164,138,.12); pointer-events:none; }
+.tl-tick-maj { background:rgba(181,164,138,.22); }
+.tl-tick-lbl { position:absolute; font-family:'Exo 2',sans-serif; font-size:.46rem; color:rgba(181,164,138,.2); transform:translateX(-50%); pointer-events:none; white-space:nowrap; top:calc(50% + 26px); }
 
 /* Event nodes */
-.tl-node {
-  position: absolute; top: 50%;
-  display: flex; flex-direction: column; align-items: center;
-  cursor: pointer; z-index: 3;
-}
-.tl-node.above { transform: translate(-50%,-100%); flex-direction: column-reverse; padding-bottom: 4px; }
-.tl-node.below { transform: translate(-50%,0);      flex-direction: column;         padding-top: 4px; }
+.tl-node { position:absolute; top:50%; display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:3; }
+.tl-node.above { transform:translate(-50%,-100%); flex-direction:column-reverse; padding-bottom:4px; }
+.tl-node.below { transform:translate(-50%,0);      flex-direction:column;         padding-top:4px; }
+.tl-dot  { width:11px; height:11px; border-radius:50%; border:2px solid rgba(232,184,75,.55); background:#1a0f06; transition:all .18s; flex-shrink:0; z-index:4; }
+.tl-node:hover .tl-dot,.tl-node.active .tl-dot { background:var(--gold-light); border-color:var(--gold-light); transform:scale(1.5); box-shadow:0 0 12px rgba(232,184,75,.7); }
+.tl-stem { width:1px; background:rgba(201,134,31,.3); flex-shrink:0; height:20px; }
+.tl-node:hover .tl-stem,.tl-node.active .tl-stem { background:rgba(232,184,75,.5); }
+.tl-card { display:flex; flex-direction:column; align-items:center; text-align:center; max-width:70px; padding:4px 3px 3px; border-radius:6px; background:rgba(0,0,0,0); transition:background .18s; }
+.tl-node:hover .tl-card,.tl-node.active .tl-card { background:rgba(0,0,0,.45); }
+.tl-emoji { font-size:1.05rem; line-height:1; margin-bottom:1px; }
+.tl-year  { font-family:'Exo 2',sans-serif; font-size:.5rem; font-weight:700; color:rgba(232,184,75,.65); letter-spacing:.5px; white-space:nowrap; }
+.tl-name  { font-family:'Crimson Text',serif; font-size:.6rem; color:rgba(181,164,138,.7); line-height:1.2; margin-top:1px; }
+.tl-node:hover .tl-name,.tl-node.active .tl-name { color:var(--parchment); }
 
-.tl-dot {
-  width: 11px; height: 11px; border-radius: 50%;
-  border: 2px solid rgba(232,184,75,0.6); background: #1a0f06;
-  transition: all 0.18s; flex-shrink: 0; z-index: 4;
-}
-.tl-node:hover .tl-dot, .tl-node.active .tl-dot {
-  background: var(--gold-light); border-color: var(--gold-light);
-  transform: scale(1.5); box-shadow: 0 0 12px rgba(232,184,75,0.7);
-}
-
-.tl-stem { width: 1px; background: rgba(201,134,31,0.3); flex-shrink: 0; height: 20px; }
-.tl-node:hover .tl-stem, .tl-node.active .tl-stem { background: rgba(232,184,75,0.5); }
-
-.tl-card {
-  display: flex; flex-direction: column; align-items: center; text-align: center;
-  max-width: 70px; padding: 4px 3px 3px;
-  border-radius: 6px; background: rgba(0,0,0,0);
-  transition: background 0.18s;
-}
-.tl-node:hover .tl-card, .tl-node.active .tl-card { background: rgba(0,0,0,0.45); }
-.tl-emoji { font-size: 1.05rem; line-height: 1; margin-bottom: 1px; }
-.tl-year  { font-family: 'Exo 2', sans-serif; font-size: 0.5rem; font-weight: 700; color: rgba(232,184,75,0.65); letter-spacing: 0.5px; white-space: nowrap; }
-.tl-name  { font-family: 'Crimson Text', serif; font-size: 0.6rem; color: rgba(181,164,138,0.7); line-height: 1.2; margin-top: 1px; }
-.tl-node:hover .tl-name, .tl-node.active .tl-name { color: var(--parchment); }
-
-
-/* ── DETAIL PANEL ── */
-.detail-panel {
-  display: none; margin: 12px 0 16px;
-  background: rgba(12,7,3,0.92);
-  border: 1.5px solid rgba(201,134,31,0.28);
-  border-radius: 12px; overflow: hidden;
-  animation: fadeIn 0.25s;
-}
-.detail-panel.show { display: block; }
-
-.detail-era-stripe { height: 3px; width: 100%; }
-
-.detail-body { padding: 14px 16px 16px; position: relative; }
-
-.detail-close {
-  position: absolute; top: 12px; right: 14px;
-  background: none; border: none; color: rgba(181,164,138,0.3);
-  font-size: 1.1rem; cursor: pointer; line-height: 1; padding: 2px 4px;
-  transition: color 0.15s; border-radius: 4px;
-}
-.detail-close:hover { color: var(--stone); background: rgba(255,255,255,0.05); }
-
-.detail-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 11px; }
-.detail-big-emoji { font-size: 2.4rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
-.detail-meta { flex: 1; min-width: 0; padding-right: 24px; }
-.detail-title { font-family: 'Cinzel Decorative', serif; font-size: 0.9rem; color: var(--gold-light); line-height: 1.3; margin-bottom: 5px; }
-.detail-pills { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-.detail-year-pill { font-family: 'Exo 2', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; color: rgba(232,184,75,0.65); }
-.detail-era-pill  { font-family: 'Exo 2', sans-serif; font-size: 0.58rem; letter-spacing: 1.2px; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; border: 1px solid; }
-
-.detail-desc { font-family: 'Crimson Text', serif; font-size: 0.93rem; line-height: 1.65; color: rgba(245,234,216,0.82); margin-bottom: 12px; }
-
-.detail-wiki {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-family: 'Exo 2', sans-serif; font-size: 0.62rem; letter-spacing: 0.4px;
-  color: rgba(106,158,207,0.65); text-decoration: none;
-  border-bottom: 1px dotted rgba(106,158,207,0.28);
-  transition: color 0.15s, border-color 0.15s;
-}
-.detail-wiki:hover { color: #9bc4e8; border-bottom-color: rgba(106,158,207,0.55); }
-.detail-wiki-icon { font-size: 0.75rem; opacity: 0.7; }
+/* Detail panel */
+.detail-panel { display:none; margin:12px 0 16px; background:rgba(12,7,3,.92); border:1.5px solid rgba(201,134,31,.28); border-radius:12px; overflow:hidden; animation:fadeIn .25s; }
+.detail-panel.show { display:block; }
+.detail-era-stripe { height:3px; width:100%; }
+.detail-body   { padding:14px 16px 16px; position:relative; }
+.detail-close  { position:absolute; top:12px; right:14px; background:none; border:none; color:rgba(181,164,138,.3); font-size:1.1rem; cursor:pointer; line-height:1; padding:2px 4px; transition:color .15s; border-radius:4px; }
+.detail-close:hover { color:var(--stone); background:rgba(255,255,255,.05); }
+.detail-top    { display:flex; align-items:flex-start; gap:14px; margin-bottom:11px; }
+.detail-big-emoji { font-size:2.4rem; line-height:1; flex-shrink:0; margin-top:2px; }
+.detail-meta   { flex:1; min-width:0; padding-right:24px; }
+.detail-title  { font-family:'Cinzel Decorative',serif; font-size:.9rem; color:var(--gold-light); line-height:1.3; margin-bottom:5px; }
+.detail-pills  { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+.detail-year-pill { font-family:'Exo 2',sans-serif; font-size:.65rem; font-weight:700; letter-spacing:1px; color:rgba(232,184,75,.65); }
+.detail-era-pill  { font-family:'Exo 2',sans-serif; font-size:.58rem; letter-spacing:1.2px; text-transform:uppercase; padding:2px 8px; border-radius:20px; border:1px solid; }
+.detail-desc   { font-family:'Crimson Text',serif; font-size:.93rem; line-height:1.65; color:rgba(245,234,216,.82); margin-bottom:12px; }
+.detail-wiki   { display:inline-flex; align-items:center; gap:5px; font-family:'Exo 2',sans-serif; font-size:.62rem; letter-spacing:.4px; color:rgba(106,158,207,.65); text-decoration:none; border-bottom:1px dotted rgba(106,158,207,.28); transition:color .15s,border-color .15s; }
+.detail-wiki:hover { color:#9bc4e8; border-bottom-color:rgba(106,158,207,.55); }
 </style>
 </head>
 <body>
-
 <div class="stars" id="starfield"></div>
-
 <div class="page-wrap">
 
   <header>
@@ -320,10 +237,10 @@ header { text-align: center; padding: 22px 0 14px; border-bottom: 2px solid var(
 
   <div class="view-tabs">
     <button class="view-tab active" onclick="switchView('play',this)">⚔️ Play</button>
-    <button class="view-tab" onclick="switchView('learn',this)">📖 Polish History</button>
+    <button class="view-tab" onclick="switchView('learn',this)">📖 Learn</button>
   </div>
 
-  <!-- ══ PLAY SECTION ══ -->
+  <!-- PLAY SECTION -->
   <div id="playSection">
     <div class="hud">
       <div class="hud-item">Score <span id="scoreDisplay">0</span></div>
@@ -340,14 +257,8 @@ header { text-align: center; padding: 22px 0 14px; border-bottom: 2px solid var(
     <div class="question-label" id="questionLabel"></div>
     <div class="instruction">Tap a card · then tap a slot to place it</div>
     <div class="game-layout">
-      <div>
-        <div class="panel-label">Cards to place</div>
-        <div class="card-pool" id="cardPool"></div>
-      </div>
-      <div>
-        <div class="panel-label">Your timeline</div>
-        <div class="slots-panel" id="slotsPanel"></div>
-      </div>
+      <div><div class="panel-label">Cards to place</div><div class="card-pool" id="cardPool"></div></div>
+      <div><div class="panel-label">Your timeline</div><div class="slots-panel" id="slotsPanel"></div></div>
     </div>
     <div class="hint-box" id="hintBox"></div>
     <div class="controls">
@@ -355,43 +266,40 @@ header { text-align: center; padding: 22px 0 14px; border-bottom: 2px solid var(
       <button class="btn btn-ghost" onclick="showHint()">💡 Hint</button>
       <button class="btn btn-ghost" onclick="clearSlots()">↩ Reset</button>
     </div>
-    <div class="result-banner" id="resultBanner">
-      <h2 id="resultTitle"></h2>
-      <p id="resultMsg"></p>
-    </div>
-    <div class="answer-reveal" id="answerReveal">
-      <div class="answer-reveal-title">Correct order:</div>
-    </div>
+    <div class="result-banner" id="resultBanner"><h2 id="resultTitle"></h2><p id="resultMsg"></p></div>
+    <div class="answer-reveal" id="answerReveal"><div class="answer-reveal-title">Correct order:</div></div>
     <div class="next-wrap">
-      <button class="btn btn-gold" id="nextBtn" onclick="nextRound()" style="display:none;min-width:160px;">Next Round →</button>
-      <button class="btn btn-gold" id="restartBtn" onclick="restart()" style="display:none;min-width:160px;">Play Again 🏆</button>
+      <button class="btn btn-gold" id="nextBtn"    onclick="nextRound()" style="display:none;min-width:160px;">Next Round →</button>
+      <button class="btn btn-gold" id="restartBtn" onclick="restart()"   style="display:none;min-width:160px;">Play Again 🏆</button>
     </div>
-  </div><!-- /playSection -->
+  </div>
 
-  <!-- ══ LEARN SECTION ══ -->
+  <!-- LEARN SECTION -->
   <div id="learnSection">
     <div class="learn-intro">
-      <strong>Poland — A Nation's Journey</strong>
-      Over 1,000 years of history on one scrollable timeline.<br>
-      Tap any event to read more &nbsp;·&nbsp; use <kbd style="background:rgba(255,255,255,0.07);padding:1px 6px;border-radius:3px;font-size:0.85em;color:var(--stone);font-style:normal;">+ −</kbd> to zoom.
+      <strong id="learnTitle">World History</strong>
+      <span id="learnSubtitle">Tap any event to read more · use + − to zoom · drag to scroll</span>
     </div>
-
+    <div class="learn-tabs">
+      <button class="learn-tab active" onclick="switchLearnView('world',this)"><span class="learn-tab-icon">🌍</span>World</button>
+      <button class="learn-tab" onclick="switchLearnView('britain',this)"><span class="learn-tab-icon">🏰</span>Britain</button>
+      <button class="learn-tab" onclick="switchLearnView('poland',this)"><span class="learn-tab-icon">🦅</span>Poland</button>
+    </div>
     <div class="tl-fullbleed">
       <div class="zoom-bar">
         <span class="zoom-label">Zoom</span>
-        <button class="zoom-btn" onclick="adjustZoom(-1)" aria-label="Zoom out">−</button>
+        <button class="zoom-btn" onclick="adjustZoom(-1)">−</button>
         <span class="zoom-level" id="zoomLevel">100%</span>
-        <button class="zoom-btn" onclick="adjustZoom(1)"  aria-label="Zoom in">+</button>
+        <button class="zoom-btn" onclick="adjustZoom(1)">+</button>
       </div>
       <div class="tl-scroll-outer" id="tlOuter">
         <div class="tl-scroll-inner" id="tlInner"></div>
       </div>
     </div>
-
     <div class="detail-panel" id="detailPanel">
       <div class="detail-era-stripe" id="detailStripe"></div>
       <div class="detail-body">
-        <button class="detail-close" onclick="closeDetail()" aria-label="Close">✕</button>
+        <button class="detail-close" onclick="closeDetail()">✕</button>
         <div class="detail-top">
           <div class="detail-big-emoji" id="detailEmoji"></div>
           <div class="detail-meta">
@@ -403,25 +311,22 @@ header { text-align: center; padding: 22px 0 14px; border-bottom: 2px solid var(
           </div>
         </div>
         <p class="detail-desc" id="detailDesc"></p>
-        <a class="detail-wiki" id="detailWiki" href="#" target="_blank" rel="noopener noreferrer">
-          <span class="detail-wiki-icon">📖</span> Read more on Simple English Wikipedia
-        </a>
+        <a class="detail-wiki" id="detailWiki" href="#" target="_blank" rel="noopener noreferrer">📖 Read more on Simple English Wikipedia</a>
       </div>
     </div>
-  </div><!-- /learnSection -->
+  </div>
 
 </div><!-- /page-wrap -->
-
 <script>
 // ============================================================
-// WORLD DATA
+// QUIZ DATA — WORLD
 // ============================================================
 const WORLD = [
   { q:"Order these ancient civilisations from earliest to latest:", items:[
-    { name:"Ancient Egypt begins",        emoji:"🏺", era:"c.3100 BC", year:-3100 },
-    { name:"Shang Dynasty, China",        emoji:"🐉", era:"c.1600 BC", year:-1600 },
-    { name:"Ancient Greece flourishes",   emoji:"🏛️", era:"c.800 BC",  year:-800  },
-    { name:"Roman Empire founded",        emoji:"⚔️", era:"27 BC",     year:-27   },
+    { name:"Ancient Egypt begins",       emoji:"🏺", era:"c.3100 BC", year:-3100 },
+    { name:"Shang Dynasty, China",       emoji:"🐉", era:"c.1600 BC", year:-1600 },
+    { name:"Ancient Greece flourishes",  emoji:"🏛️", era:"c.800 BC",  year:-800  },
+    { name:"Roman Empire founded",       emoji:"⚔️", era:"27 BC",     year:-27   },
   ]},
   { q:"Order these world events from earliest to latest:", items:[
     { name:"Columbus reaches the Americas", emoji:"⛵", era:"1492",  year:1492 },
@@ -429,11 +334,11 @@ const WORLD = [
     { name:"World War Two ends",            emoji:"✈️", era:"1945",  year:1945 },
     { name:"First Moon Landing",            emoji:"🌕", era:"1969",  year:1969 },
   ]},
-  { q:"Put these prehistoric ages in order:", items:[
-    { name:"Stone Age",          emoji:"🪨", era:"before 3000 BC", year:-10000 },
-    { name:"Bronze Age",         emoji:"🛡️", era:"c.3000 BC",      year:-3000  },
-    { name:"Iron Age",           emoji:"⚒️", era:"c.1200 BC",      year:-1200  },
-    { name:"Middle Ages begin",  emoji:"🏰", era:"c.500 AD",       year:500    },
+  { q:"Put these prehistoric and ancient ages in order:", items:[
+    { name:"Stone Age",         emoji:"🪨", era:"before 3000 BC", year:-10000 },
+    { name:"Bronze Age",        emoji:"🛡️", era:"c.3000 BC",      year:-3000  },
+    { name:"Iron Age",          emoji:"⚒️", era:"c.1200 BC",      year:-1200  },
+    { name:"Middle Ages begin", emoji:"🏰", era:"c.500 AD",       year:500    },
   ]},
   { q:"Order these great civilisations:", items:[
     { name:"Sumer — first cities", emoji:"🏺", era:"c.4500 BC", year:-4500 },
@@ -442,16 +347,16 @@ const WORLD = [
     { name:"Mongol Empire",        emoji:"🐎", era:"1206 AD",   year:1206  },
   ]},
   { q:"Order these inventions and discoveries:", items:[
-    { name:"Writing first invented",       emoji:"✍️", era:"c.3200 BC", year:-3200 },
-    { name:"Printing Press invented",      emoji:"📖", era:"1440s",     year:1440  },
-    { name:"Steam Engine developed",       emoji:"🚂", era:"1760s",     year:1760  },
-    { name:"World Wide Web invented",      emoji:"💻", era:"1989",      year:1989  },
+    { name:"Writing first invented",   emoji:"✍️", era:"c.3200 BC", year:-3200 },
+    { name:"Printing Press invented",  emoji:"📖", era:"1440s",     year:1440  },
+    { name:"Steam Engine developed",   emoji:"🚂", era:"1760s",     year:1760  },
+    { name:"World Wide Web invented",  emoji:"💻", era:"1989",      year:1989  },
   ]},
   { q:"Order these famous empires from when they began:", items:[
-    { name:"Persian Empire",               emoji:"🌙", era:"c.550 BC",   year:-550 },
-    { name:"Alexander the Great's Empire", emoji:"⚔️", era:"336 BC",     year:-336 },
-    { name:"Ottoman Empire",               emoji:"🕌", era:"1299 AD",    year:1299 },
-    { name:"British Empire at its height", emoji:"🌍", era:"c.1815 AD",  year:1815 },
+    { name:"Persian Empire",               emoji:"🌙", era:"c.550 BC",  year:-550 },
+    { name:"Alexander the Great's Empire", emoji:"⚔️", era:"336 BC",    year:-336 },
+    { name:"Ottoman Empire",               emoji:"🕌", era:"1299 AD",   year:1299 },
+    { name:"British Empire at its height", emoji:"🌍", era:"c.1815 AD", year:1815 },
   ]},
   { q:"Order these great monuments from when they were built:", items:[
     { name:"Great Pyramid of Giza", emoji:"🔺", era:"c.2560 BC", year:-2560 },
@@ -460,46 +365,46 @@ const WORLD = [
     { name:"Eiffel Tower",          emoji:"🗼", era:"1889 AD",   year:1889  },
   ]},
   { q:"Order these key events in world history:", items:[
-    { name:"Black Death sweeps Europe",       emoji:"💀", era:"1347 AD", year:1347 },
-    { name:"American Independence declared",  emoji:"🦅", era:"1776 AD", year:1776 },
-    { name:"First World War begins",          emoji:"🪖", era:"1914 AD", year:1914 },
-    { name:"Berlin Wall falls",               emoji:"🧱", era:"1989 AD", year:1989 },
+    { name:"Black Death sweeps Europe",      emoji:"💀", era:"1347 AD", year:1347 },
+    { name:"American Independence declared", emoji:"🦅", era:"1776 AD", year:1776 },
+    { name:"First World War begins",         emoji:"🪖", era:"1914 AD", year:1914 },
+    { name:"Berlin Wall falls",              emoji:"🧱", era:"1989 AD", year:1989 },
   ]},
   { q:"Order these rulers from when they lived:", items:[
-    { name:"Julius Caesar rules Rome",    emoji:"🦅", era:"c.60 BC",   year:-60  },
-    { name:"Charlemagne rules Europe",    emoji:"👑", era:"800 AD",    year:800  },
-    { name:"Genghis Khan conquers Asia",  emoji:"🐎", era:"1206 AD",   year:1206 },
-    { name:"Napoleon becomes Emperor",   emoji:"🎖️", era:"1804 AD",   year:1804 },
+    { name:"Julius Caesar rules Rome",   emoji:"🦅", era:"c.60 BC",  year:-60  },
+    { name:"Charlemagne rules Europe",   emoji:"👑", era:"800 AD",   year:800  },
+    { name:"Genghis Khan conquers Asia", emoji:"🐎", era:"1206 AD",  year:1206 },
+    { name:"Napoleon becomes Emperor",  emoji:"🎖️", era:"1804 AD",  year:1804 },
   ]},
   { q:"Order these great religions from when they began:", items:[
-    { name:"Hinduism develops",     emoji:"🕉️", era:"c.2300 BC", year:-2300 },
-    { name:"Buddhism founded",      emoji:"☸️", era:"c.500 BC",  year:-500  },
-    { name:"Christianity spreads",  emoji:"✝️", era:"c.30 AD",   year:30    },
-    { name:"Islam founded",         emoji:"☪️", era:"622 AD",    year:622   },
+    { name:"Hinduism develops",    emoji:"🕉️", era:"c.2300 BC", year:-2300 },
+    { name:"Buddhism founded",     emoji:"☸️", era:"c.500 BC",  year:-500  },
+    { name:"Christianity spreads", emoji:"✝️", era:"c.30 AD",   year:30    },
+    { name:"Islam founded",        emoji:"☪️", era:"622 AD",    year:622   },
   ]},
   { q:"Order these scientific breakthroughs:", items:[
-    { name:"Galileo studies the heavens",              emoji:"🔭", era:"c.1610 AD", year:1610 },
-    { name:"Newton describes gravity",                 emoji:"🍎", era:"1687 AD",   year:1687 },
-    { name:"Darwin publishes theory of evolution",     emoji:"🐢", era:"1859 AD",   year:1859 },
-    { name:"DNA structure discovered",                 emoji:"🧬", era:"1953 AD",   year:1953 },
+    { name:"Galileo studies the heavens",          emoji:"🔭", era:"c.1610 AD", year:1610 },
+    { name:"Newton describes gravity",             emoji:"🍎", era:"1687 AD",   year:1687 },
+    { name:"Darwin publishes theory of evolution", emoji:"🐢", era:"1859 AD",   year:1859 },
+    { name:"DNA structure discovered",             emoji:"🧬", era:"1953 AD",   year:1953 },
   ]},
   { q:"Order these explorers from when they made their famous journeys:", items:[
-    { name:"Marco Polo travels to China",       emoji:"🧭", era:"1271 AD", year:1271 },
-    { name:"Columbus reaches the Americas",     emoji:"⛵", era:"1492 AD", year:1492 },
-    { name:"Magellan sails around the world",   emoji:"🌏", era:"1519 AD", year:1519 },
-    { name:"Captain Cook reaches Australia",    emoji:"🦘", era:"1770 AD", year:1770 },
+    { name:"Marco Polo travels to China",     emoji:"🧭", era:"1271 AD", year:1271 },
+    { name:"Columbus reaches the Americas",   emoji:"⛵", era:"1492 AD", year:1492 },
+    { name:"Magellan sails around the world", emoji:"🌏", era:"1519 AD", year:1519 },
+    { name:"Captain Cook reaches Australia",  emoji:"🦘", era:"1770 AD", year:1770 },
   ]},
 ];
 
 // ============================================================
-// BRITAIN DATA
+// QUIZ DATA — BRITAIN
 // ============================================================
 const BRITAIN = [
   { q:"Order these events in British history:", items:[
-    { name:"Romans arrive in Britain",  emoji:"🦅", era:"43 AD",    year:43   },
-    { name:"Battle of Hastings",        emoji:"⚔️", era:"1066 AD",  year:1066 },
-    { name:"Magna Carta signed",        emoji:"📜", era:"1215 AD",  year:1215 },
-    { name:"Spanish Armada defeated",   emoji:"⛵", era:"1588 AD",  year:1588 },
+    { name:"Romans arrive in Britain", emoji:"🦅", era:"43 AD",   year:43   },
+    { name:"Battle of Hastings",       emoji:"⚔️", era:"1066 AD", year:1066 },
+    { name:"Magna Carta signed",       emoji:"📜", era:"1215 AD", year:1215 },
+    { name:"Spanish Armada defeated",  emoji:"⛵", era:"1588 AD", year:1588 },
   ]},
   { q:"Order these British monarchs by when they first came to the throne:", items:[
     { name:"William the Conqueror", emoji:"🏰", era:"from 1066", year:1066 },
@@ -508,52 +413,52 @@ const BRITAIN = [
     { name:"Elizabeth II",          emoji:"💂", era:"from 1952", year:1952 },
   ]},
   { q:"Order these events in British history:", items:[
-    { name:"Stone Age settlers arrive",  emoji:"🪨", era:"c.4000 BC", year:-4000 },
-    { name:"Vikings raid Britain",       emoji:"🪓", era:"793 AD",    year:793   },
-    { name:"Great Fire of London",       emoji:"🔥", era:"1666 AD",   year:1666  },
-    { name:"First World War begins",     emoji:"🪖", era:"1914 AD",   year:1914  },
+    { name:"Stone Age settlers arrive", emoji:"🪨", era:"c.4000 BC", year:-4000 },
+    { name:"Vikings raid Britain",      emoji:"🪓", era:"793 AD",    year:793   },
+    { name:"Great Fire of London",      emoji:"🔥", era:"1666 AD",   year:1666  },
+    { name:"First World War begins",    emoji:"🪖", era:"1914 AD",   year:1914  },
   ]},
   { q:"Order these important moments in British history:", items:[
-    { name:"Gunpowder Plot",              emoji:"💣",    era:"1605 AD",   year:1605 },
-    { name:"Act of Union — UK formed",    emoji:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", era:"1707 AD",   year:1707 },
-    { name:"Industrial Revolution begins",emoji:"🏭",    era:"c.1760 AD", year:1760 },
-    { name:"Women get the vote",          emoji:"🗳️",    era:"1918 AD",   year:1918 },
+    { name:"Gunpowder Plot",               emoji:"💣",    era:"1605 AD",   year:1605 },
+    { name:"Act of Union — UK formed",     emoji:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", era:"1707 AD",   year:1707 },
+    { name:"Industrial Revolution begins", emoji:"🏭",    era:"c.1760 AD", year:1760 },
+    { name:"Women get the vote",           emoji:"🗳️",    era:"1918 AD",   year:1918 },
   ]},
   { q:"Order these periods of British history:", items:[
-    { name:"Norman Conquest",   emoji:"🏰", era:"from 1066 AD", year:1066 },
-    { name:"Tudor Period",      emoji:"🌹", era:"1485 AD",      year:1485 },
-    { name:"Victorian Era",     emoji:"⚙️", era:"1837 AD",      year:1837 },
-    { name:"Second World War",  emoji:"✈️", era:"1939 AD",      year:1939 },
+    { name:"Norman Conquest",  emoji:"🏰", era:"from 1066 AD", year:1066 },
+    { name:"Tudor Period",     emoji:"🌹", era:"1485 AD",      year:1485 },
+    { name:"Victorian Era",    emoji:"⚙️", era:"1837 AD",      year:1837 },
+    { name:"Second World War", emoji:"✈️", era:"1939 AD",      year:1939 },
   ]},
   { q:"Order these ancient events on British soil:", items:[
-    { name:"Stonehenge built",          emoji:"🪨", era:"c.3000 BC", year:-3000 },
-    { name:"Celts arrive in Britain",   emoji:"🌀", era:"c.600 BC",  year:-600  },
-    { name:"Romans leave Britain",      emoji:"🦅", era:"410 AD",    year:410   },
-    { name:"Anglo-Saxons settle Britain",emoji:"⚔️", era:"c.450 AD", year:450   },
+    { name:"Stonehenge built",           emoji:"🪨", era:"c.3000 BC", year:-3000 },
+    { name:"Celts arrive in Britain",    emoji:"🌀", era:"c.600 BC",  year:-600  },
+    { name:"Romans leave Britain",       emoji:"🦅", era:"410 AD",    year:410   },
+    { name:"Anglo-Saxons settle Britain",emoji:"⚔️", era:"c.450 AD",  year:450   },
   ]},
   { q:"Order these British monarchs by when they reigned:", items:[
-    { name:"King Alfred the Great",    emoji:"📜", era:"from 871 AD",  year:871  },
-    { name:"Richard the Lionheart",    emoji:"🦁", era:"from 1189 AD", year:1189 },
-    { name:"Elizabeth I",              emoji:"👸", era:"from 1558 AD", year:1558 },
-    { name:"Charles II",               emoji:"👑", era:"from 1660 AD", year:1660 },
+    { name:"King Alfred the Great",  emoji:"📜", era:"from 871 AD",  year:871  },
+    { name:"Richard the Lionheart",  emoji:"🦁", era:"from 1189 AD", year:1189 },
+    { name:"Elizabeth I",            emoji:"👸", era:"from 1558 AD", year:1558 },
+    { name:"Charles II",             emoji:"👑", era:"from 1660 AD", year:1660 },
   ]},
   { q:"Order these famous battles in British history:", items:[
-    { name:"Battle of Hastings",    emoji:"⚔️", era:"1066 AD", year:1066 },
-    { name:"Battle of Agincourt",   emoji:"🏹", era:"1415 AD", year:1415 },
-    { name:"Battle of Trafalgar",   emoji:"⛵", era:"1805 AD", year:1805 },
-    { name:"Battle of the Somme",   emoji:"🪖", era:"1916 AD", year:1916 },
+    { name:"Battle of Hastings",   emoji:"⚔️", era:"1066 AD", year:1066 },
+    { name:"Battle of Agincourt",  emoji:"🏹", era:"1415 AD", year:1415 },
+    { name:"Battle of Trafalgar",  emoji:"⛵", era:"1805 AD", year:1805 },
+    { name:"Battle of the Somme",  emoji:"🪖", era:"1916 AD", year:1916 },
   ]},
   { q:"Order these British inventions:", items:[
-    { name:"Printing press arrives in Britain",  emoji:"📖", era:"1476 AD", year:1476 },
-    { name:"Steam engine improved by Watt",      emoji:"🚂", era:"1769 AD", year:1769 },
-    { name:"Telephone invented (Bell)",          emoji:"☎️", era:"1876 AD", year:1876 },
-    { name:"World Wide Web (Berners-Lee)",        emoji:"🌐", era:"1989 AD", year:1989 },
+    { name:"Printing press arrives in Britain", emoji:"📖", era:"1476 AD", year:1476 },
+    { name:"Steam engine improved by Watt",     emoji:"🚂", era:"1769 AD", year:1769 },
+    { name:"Telephone invented (Bell)",         emoji:"☎️", era:"1876 AD", year:1876 },
+    { name:"World Wide Web (Berners-Lee)",       emoji:"🌐", era:"1989 AD", year:1989 },
   ]},
   { q:"Order these events in more recent British history:", items:[
     { name:"NHS founded",                  emoji:"🏥",    era:"1948 AD", year:1948 },
     { name:"Britain joins the EEC",        emoji:"🇪🇺", era:"1973 AD", year:1973 },
     { name:"First female Prime Minister",  emoji:"👩‍💼", era:"1979 AD", year:1979 },
-    { name:"Brexit — Britain leaves the EU",emoji:"🇬🇧", era:"2020 AD", year:2020 },
+    { name:"Brexit — Britain leaves the EU",emoji:"🇬🇧",era:"2020 AD", year:2020 },
   ]},
   { q:"Order these disasters in British history:", items:[
     { name:"Black Death arrives in Britain", emoji:"💀", era:"1348 AD", year:1348 },
@@ -562,15 +467,15 @@ const BRITAIN = [
     { name:"The Blitz — London bombed",      emoji:"💣", era:"1940 AD", year:1940 },
   ]},
   { q:"Order these events from Scottish and Welsh history:", items:[
-    { name:"Battle of Bannockburn",          emoji:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", era:"1314 AD", year:1314 },
-    { name:"Wales joined to England",        emoji:"🐉",    era:"1536 AD", year:1536 },
-    { name:"Jacobite Rebellion",             emoji:"⚔️",    era:"1745 AD", year:1745 },
-    { name:"Scottish Parliament re-established",emoji:"🏛️", era:"1999 AD", year:1999 },
+    { name:"Battle of Bannockburn",             emoji:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", era:"1314 AD", year:1314 },
+    { name:"Wales joined to England",           emoji:"🐉",    era:"1536 AD", year:1536 },
+    { name:"Jacobite Rebellion",                emoji:"⚔️",    era:"1745 AD", year:1745 },
+    { name:"Scottish Parliament re-established",emoji:"🏛️",   era:"1999 AD", year:1999 },
   ]},
 ];
 
 // ============================================================
-// MIXED EXTRA DATA
+// QUIZ DATA — MIXED
 // ============================================================
 const MIXED_EXTRA = [
   { q:"Order these events mixing world and British history:", items:[
@@ -592,21 +497,21 @@ const MIXED_EXTRA = [
     { name:"Edmund Hillary climbs Everest",     emoji:"🏔️", era:"1953 AD",  year:1953 },
   ]},
   { q:"Order these events mixing world and British history:", items:[
-    { name:"Vikings reach Britain",          emoji:"🪓", era:"793 AD",    year:793  },
-    { name:"Black Death across Europe",      emoji:"💀", era:"1347 AD",   year:1347 },
-    { name:"Industrial Revolution in Britain",emoji:"🏭", era:"c.1760 AD",year:1760 },
-    { name:"First World War",                emoji:"🪖", era:"1914 AD",   year:1914 },
+    { name:"Vikings reach Britain",            emoji:"🪓", era:"793 AD",    year:793  },
+    { name:"Black Death across Europe",        emoji:"💀", era:"1347 AD",   year:1347 },
+    { name:"Industrial Revolution in Britain", emoji:"🏭", era:"c.1760 AD", year:1760 },
+    { name:"First World War",                  emoji:"🪖", era:"1914 AD",   year:1914 },
   ]},
   { q:"Order these famous leaders from when they lived:", items:[
-    { name:"Cleopatra rules Egypt",          emoji:"🏺", era:"c.51 BC",  year:-51  },
-    { name:"Joan of Arc leads France",       emoji:"⚔️", era:"1429 AD",  year:1429 },
-    { name:"Winston Churchill leads Britain",emoji:"🇬🇧", era:"1940 AD", year:1940 },
-    { name:"Nelson Mandela becomes President",emoji:"🕊️", era:"1994 AD", year:1994 },
+    { name:"Cleopatra rules Egypt",           emoji:"🏺", era:"c.51 BC",  year:-51  },
+    { name:"Joan of Arc leads France",        emoji:"⚔️", era:"1429 AD",  year:1429 },
+    { name:"Winston Churchill leads Britain", emoji:"🇬🇧",era:"1940 AD",  year:1940 },
+    { name:"Nelson Mandela becomes President",emoji:"🕊️", era:"1994 AD",  year:1994 },
   ]},
 ];
 
 // ============================================================
-// POLAND DATA  (items carry wiki links, shown post-answer)
+// QUIZ DATA — POLAND
 // ============================================================
 const POLAND = [
   { q:"Order these founding events of Poland from earliest to latest:", items:[
@@ -616,10 +521,10 @@ const POLAND = [
     { name:"Union of Lublin",         emoji:"🤝", era:"1569 AD", year:1569, wiki:"https://simple.wikipedia.org/wiki/Union_of_Lublin" },
   ]},
   { q:"Order these key moments in Polish history:", items:[
-    { name:"Jagiellonian University founded",   emoji:"🎓", era:"1364 AD", year:1364, wiki:"https://simple.wikipedia.org/wiki/Jagiellonian_University" },
-    { name:"Jan Sobieski saves Vienna",         emoji:"🌙", era:"1683 AD", year:1683, wiki:"https://simple.wikipedia.org/wiki/Battle_of_Vienna" },
-    { name:"Constitution of May 3rd",           emoji:"📜", era:"1791 AD", year:1791, wiki:"https://simple.wikipedia.org/wiki/Constitution_of_May_3,_1791" },
-    { name:"Third Partition — Poland erased",   emoji:"💔", era:"1795 AD", year:1795, wiki:"https://simple.wikipedia.org/wiki/Partitions_of_Poland" },
+    { name:"Jagiellonian University founded",  emoji:"🎓", era:"1364 AD", year:1364, wiki:"https://simple.wikipedia.org/wiki/Jagiellonian_University" },
+    { name:"Jan Sobieski saves Vienna",        emoji:"🌙", era:"1683 AD", year:1683, wiki:"https://simple.wikipedia.org/wiki/Battle_of_Vienna" },
+    { name:"Constitution of May 3rd",          emoji:"📜", era:"1791 AD", year:1791, wiki:"https://simple.wikipedia.org/wiki/Constitution_of_May_3,_1791" },
+    { name:"Third Partition — Poland erased",  emoji:"💔", era:"1795 AD", year:1795, wiki:"https://simple.wikipedia.org/wiki/Partitions_of_Poland" },
   ]},
   { q:"Order these 20th century events in Polish history:", items:[
     { name:"Poland regains independence", emoji:"🦅", era:"1918 AD", year:1918, wiki:"https://simple.wikipedia.org/wiki/Second_Polish_Republic" },
@@ -628,16 +533,16 @@ const POLAND = [
     { name:"Solidarity movement founded", emoji:"✊", era:"1980 AD", year:1980, wiki:"https://simple.wikipedia.org/wiki/Solidarity_(Polish_trade_union)" },
   ]},
   { q:"Order these famous Poles by when they were born:", items:[
-    { name:"Nicolaus Copernicus",    emoji:"🔭", era:"born 1473", year:1473, wiki:"https://simple.wikipedia.org/wiki/Nicolaus_Copernicus" },
-    { name:"King Jan III Sobieski",  emoji:"👑", era:"born 1629", year:1629, wiki:"https://simple.wikipedia.org/wiki/John_III_Sobieski" },
-    { name:"Frédéric Chopin",        emoji:"🎹", era:"born 1810", year:1810, wiki:"https://simple.wikipedia.org/wiki/Fr%C3%A9d%C3%A9ric_Chopin" },
-    { name:"Marie Curie",            emoji:"⚗️", era:"born 1867", year:1867, wiki:"https://simple.wikipedia.org/wiki/Marie_Curie" },
+    { name:"Nicolaus Copernicus",   emoji:"🔭", era:"born 1473", year:1473, wiki:"https://simple.wikipedia.org/wiki/Nicolaus_Copernicus" },
+    { name:"King Jan III Sobieski", emoji:"👑", era:"born 1629", year:1629, wiki:"https://simple.wikipedia.org/wiki/John_III_Sobieski" },
+    { name:"Frédéric Chopin",       emoji:"🎹", era:"born 1810", year:1810, wiki:"https://simple.wikipedia.org/wiki/Fr%C3%A9d%C3%A9ric_Chopin" },
+    { name:"Marie Curie",           emoji:"⚗️", era:"born 1867", year:1867, wiki:"https://simple.wikipedia.org/wiki/Marie_Curie" },
   ]},
   { q:"Order these events in Polish history from earliest:", items:[
-    { name:"Mongol invasion of Poland",                 emoji:"🐎", era:"1241 AD", year:1241, wiki:"https://simple.wikipedia.org/wiki/Mongol_invasion_of_Poland" },
-    { name:"Copernicus publishes heliocentric theory",  emoji:"🔭", era:"1543 AD", year:1543, wiki:"https://simple.wikipedia.org/wiki/Nicolaus_Copernicus" },
-    { name:"November Uprising against Russia",          emoji:"🔥", era:"1830 AD", year:1830, wiki:"https://simple.wikipedia.org/wiki/November_Uprising" },
-    { name:"Miracle on the Vistula",                   emoji:"⚡", era:"1920 AD", year:1920, wiki:"https://simple.wikipedia.org/wiki/Battle_of_Warsaw_(1920)" },
+    { name:"Mongol invasion of Poland",                emoji:"🐎", era:"1241 AD", year:1241, wiki:"https://simple.wikipedia.org/wiki/Mongol_invasion_of_Poland" },
+    { name:"Copernicus publishes heliocentric theory", emoji:"🔭", era:"1543 AD", year:1543, wiki:"https://simple.wikipedia.org/wiki/Nicolaus_Copernicus" },
+    { name:"November Uprising against Russia",         emoji:"🔥", era:"1830 AD", year:1830, wiki:"https://simple.wikipedia.org/wiki/November_Uprising" },
+    { name:"Miracle on the Vistula",                  emoji:"⚡", era:"1920 AD", year:1920, wiki:"https://simple.wikipedia.org/wiki/Battle_of_Warsaw_(1920)" },
   ]},
   { q:"Order these moments of Polish resistance and freedom:", items:[
     { name:"January Uprising against Russia",    emoji:"⚔️", era:"1863 AD", year:1863, wiki:"https://simple.wikipedia.org/wiki/January_Uprising" },
@@ -646,22 +551,22 @@ const POLAND = [
     { name:"Round Table — first free elections", emoji:"🕊️", era:"1989 AD", year:1989, wiki:"https://simple.wikipedia.org/wiki/Polish_Round_Table_Agreement" },
   ]},
   { q:"Order these events from Polish medieval history:", items:[
-    { name:"Teutonic Knights invited to Poland",       emoji:"🗡️", era:"1226 AD", year:1226, wiki:"https://simple.wikipedia.org/wiki/Teutonic_Knights" },
-    { name:"Jagiellonian University founded",          emoji:"🎓", era:"1364 AD", year:1364, wiki:"https://simple.wikipedia.org/wiki/Jagiellonian_University" },
-    { name:"Battle of Grunwald",                       emoji:"⚔️", era:"1410 AD", year:1410, wiki:"https://simple.wikipedia.org/wiki/Battle_of_Grunwald" },
-    { name:"Polish-Lithuanian Commonwealth formed",    emoji:"🤝", era:"1569 AD", year:1569, wiki:"https://simple.wikipedia.org/wiki/Polish%E2%80%93Lithuanian_Commonwealth" },
+    { name:"Teutonic Knights invited to Poland",    emoji:"🗡️", era:"1226 AD", year:1226, wiki:"https://simple.wikipedia.org/wiki/Teutonic_Knights" },
+    { name:"Jagiellonian University founded",       emoji:"🎓", era:"1364 AD", year:1364, wiki:"https://simple.wikipedia.org/wiki/Jagiellonian_University" },
+    { name:"Battle of Grunwald",                    emoji:"⚔️", era:"1410 AD", year:1410, wiki:"https://simple.wikipedia.org/wiki/Battle_of_Grunwald" },
+    { name:"Polish-Lithuanian Commonwealth formed", emoji:"🤝", era:"1569 AD", year:1569, wiki:"https://simple.wikipedia.org/wiki/Polish%E2%80%93Lithuanian_Commonwealth" },
   ]},
   { q:"Order these events in 20th century Polish history:", items:[
-    { name:"Katyn Massacre by Soviets",        emoji:"🕯️", era:"1940 AD", year:1940, wiki:"https://simple.wikipedia.org/wiki/Katyn_massacre" },
-    { name:"Communist rule begins",            emoji:"🔴", era:"1945 AD", year:1945, wiki:"https://simple.wikipedia.org/wiki/Polish_People%27s_Republic" },
-    { name:"Martial Law declared in Poland",   emoji:"🪖", era:"1981 AD", year:1981, wiki:"https://simple.wikipedia.org/wiki/Martial_law_in_Poland" },
-    { name:"Poland joins the European Union",  emoji:"🇪🇺", era:"2004 AD", year:2004, wiki:"https://simple.wikipedia.org/wiki/Poland" },
+    { name:"Katyn Massacre by Soviets",       emoji:"🕯️", era:"1940 AD", year:1940, wiki:"https://simple.wikipedia.org/wiki/Katyn_massacre" },
+    { name:"Communist rule begins",           emoji:"🔴", era:"1945 AD", year:1945, wiki:"https://simple.wikipedia.org/wiki/Polish_People%27s_Republic" },
+    { name:"Martial Law declared in Poland",  emoji:"🪖", era:"1981 AD", year:1981, wiki:"https://simple.wikipedia.org/wiki/Martial_law_in_Poland" },
+    { name:"Poland joins the European Union", emoji:"🇪🇺",era:"2004 AD", year:2004, wiki:"https://simple.wikipedia.org/wiki/Poland" },
   ]},
   { q:"Order these Polish rulers by when they began to reign:", items:[
-    { name:"Mieszko I — first duke of Poland",  emoji:"⚔️", era:"c.960 AD",  year:960,  wiki:"https://simple.wikipedia.org/wiki/Mieszko_I_of_Poland" },
-    { name:"Casimir III the Great",             emoji:"🏛️", era:"1333 AD",   year:1333, wiki:"https://simple.wikipedia.org/wiki/Casimir_III_the_Great" },
-    { name:"King Stefan Bathory",               emoji:"👑", era:"1576 AD",   year:1576, wiki:"https://simple.wikipedia.org/wiki/Stephen_B%C3%A1thory" },
-    { name:"Stanisław August — last king",      emoji:"🎨", era:"1764 AD",   year:1764, wiki:"https://simple.wikipedia.org/wiki/Stanis%C5%82aw_II_August" },
+    { name:"Mieszko I — first duke of Poland", emoji:"⚔️", era:"c.960 AD", year:960,  wiki:"https://simple.wikipedia.org/wiki/Mieszko_I_of_Poland" },
+    { name:"Casimir III the Great",            emoji:"🏛️", era:"1333 AD",  year:1333, wiki:"https://simple.wikipedia.org/wiki/Casimir_III_the_Great" },
+    { name:"King Stefan Bathory",              emoji:"👑", era:"1576 AD",  year:1576, wiki:"https://simple.wikipedia.org/wiki/Stephen_B%C3%A1thory" },
+    { name:"Stanisław August — last king",     emoji:"🎨", era:"1764 AD",  year:1764, wiki:"https://simple.wikipedia.org/wiki/Stanis%C5%82aw_II_August" },
   ]},
   { q:"Order these events in Polish history:", items:[
     { name:"Poland reunited under Władysław I", emoji:"👑", era:"1320 AD", year:1320, wiki:"https://simple.wikipedia.org/wiki/Vladislaus_I_the_Elbow-high" },
@@ -674,104 +579,151 @@ const POLAND = [
 // ============================================================
 // LEARN TIMELINE DATA
 // ============================================================
-const ERA_META = {
-  piast:  { label:"Piast Dynasty",     color:"#c9a227", pill:"rgba(201,162,39,0.15)",  border:"rgba(201,162,39,0.45)"  },
-  jagiel: { label:"Jagiellonian Era",  color:"#c060e0", pill:"rgba(192,96,224,0.15)",  border:"rgba(192,96,224,0.45)"  },
-  common: { label:"Commonwealth",      color:"#e05050", pill:"rgba(224,80,80,0.15)",   border:"rgba(224,80,80,0.45)"   },
-  part:   { label:"Partitions Era",    color:"#8888aa", pill:"rgba(136,136,170,0.15)", border:"rgba(136,136,170,0.45)" },
-  modern: { label:"Modern Poland",     color:"#5090e0", pill:"rgba(80,144,224,0.15)",  border:"rgba(80,144,224,0.45)"  },
+const TL_DATA = {
+  world: {
+    title:"World History", subtitle:"From ancient civilisations to the modern age",
+    start:-3300, end:2020,
+    zoomBase:2000,
+    tickMajor:500, tickLabel:1000,
+    eraMeta:{
+      ancient:   {label:"Ancient World",     color:"#d4a030", pill:"rgba(212,160,48,.15)",  border:"rgba(212,160,48,.45)"},
+      medieval:  {label:"Medieval",          color:"#60b050", pill:"rgba(96,176,80,.15)",   border:"rgba(96,176,80,.45)"},
+      earlymod:  {label:"Age of Discovery",  color:"#5090d0", pill:"rgba(80,144,208,.15)",  border:"rgba(80,144,208,.45)"},
+      industrial:{label:"Industrial Age",    color:"#c060e0", pill:"rgba(192,96,224,.15)",  border:"rgba(192,96,224,.45)"},
+      contemp:   {label:"Modern Era",        color:"#5090e0", pill:"rgba(80,144,224,.15)",  border:"rgba(80,144,224,.45)"},
+    },
+    eraBands:[
+      {key:"ancient",    start:-3200, end:500  },
+      {key:"medieval",   start:500,   end:1500 },
+      {key:"earlymod",   start:1500,  end:1800 },
+      {key:"industrial", start:1800,  end:1945 },
+      {key:"contemp",    start:1945,  end:2020 },
+    ],
+    events:[
+      {year:-3100,title:"Ancient Egypt",         emoji:"🏺",era:"ancient",   desc:"The First Dynasty of Ancient Egypt is established under King Narmer, uniting Upper and Lower Egypt. The world's first great centralised state begins its 3,000-year history along the Nile.",wiki:"https://simple.wikipedia.org/wiki/Ancient_Egypt"},
+      {year:-2560,title:"Great Pyramid Built",   emoji:"🔺",era:"ancient",   desc:"The Great Pyramid of Giza is completed for Pharaoh Khufu — the largest structure ever built by hand. It remains one of the Seven Wonders of the Ancient World.",wiki:"https://simple.wikipedia.org/wiki/Great_Pyramid_of_Giza"},
+      {year:-776, title:"First Olympic Games",   emoji:"🏅",era:"ancient",   desc:"The ancient Greeks hold the first recorded Olympic Games at Olympia, a festival honouring Zeus. Athletes from across the Greek world compete every four years in a tradition that lasted over a millennium.",wiki:"https://simple.wikipedia.org/wiki/Ancient_Olympic_Games"},
+      {year:-327, title:"Alexander the Great",   emoji:"⚔️",era:"ancient",   desc:"Alexander of Macedon reaches the edge of the known world, having conquered Persia, Egypt, and Central Asia in just twelve years. His campaigns spread Greek culture from Europe to India.",wiki:"https://simple.wikipedia.org/wiki/Alexander_the_Great"},
+      {year:-221, title:"China Unified",         emoji:"🐉",era:"ancient",   desc:"Qin Shi Huang defeats all rival kingdoms and becomes the first Emperor of a unified China — creating a civilisation that would shape a quarter of the world's population for millennia.",wiki:"https://simple.wikipedia.org/wiki/Qin_Shi_Huang"},
+      {year:-27,  title:"Roman Empire Founded",  emoji:"🦅",era:"ancient",   desc:"Augustus Caesar becomes Rome's first Emperor, ending the Republic. At its height the Roman Empire stretched from Scotland to Iraq, and its language, laws, and roads shaped Western civilisation.",wiki:"https://simple.wikipedia.org/wiki/Roman_Empire"},
+      {year:570,  title:"Muhammad Born",         emoji:"☪️",era:"medieval",  desc:"The Prophet Muhammad is born in Mecca. His teachings will found Islam — a faith that within 200 years spreads from Spain to Indonesia, transforming religion, science, and culture across three continents.",wiki:"https://simple.wikipedia.org/wiki/Muhammad"},
+      {year:1066, title:"Battle of Hastings",    emoji:"⚔️",era:"medieval",  desc:"William the Conqueror defeats King Harold and seizes the English throne, beginning the Norman Conquest. It transformed the English language, law, and culture in ways still felt today.",wiki:"https://simple.wikipedia.org/wiki/Battle_of_Hastings"},
+      {year:1215, title:"Magna Carta",           emoji:"📜",era:"medieval",  desc:"English barons force King John to sign Magna Carta, limiting royal power and establishing that no one — not even the king — is above the law. It is a cornerstone of modern democracy.",wiki:"https://simple.wikipedia.org/wiki/Magna_Carta"},
+      {year:1271, title:"Marco Polo's Journey",  emoji:"🧭",era:"medieval",  desc:"Venetian merchant Marco Polo sets out for China, spending 17 years in Asia. His account of Kublai Khan's court and the wonders of the East fired European imaginations for centuries.",wiki:"https://simple.wikipedia.org/wiki/Marco_Polo"},
+      {year:1347, title:"The Black Death",       emoji:"💀",era:"medieval",  desc:"The bubonic plague reaches Europe from Central Asia, killing up to a third of the continent's population in four years. It reshapes economics, religion, and the social order across Europe.",wiki:"https://simple.wikipedia.org/wiki/Black_Death"},
+      {year:1440, title:"Gutenberg Press",       emoji:"📖",era:"medieval",  desc:"Johannes Gutenberg invents the movable-type printing press in Mainz. Within 50 years, millions of books are circulating across Europe, making knowledge accessible and fuelling the Renaissance and Reformation.",wiki:"https://simple.wikipedia.org/wiki/Johannes_Gutenberg"},
+      {year:1492, title:"Columbus's Voyage",     emoji:"⛵",era:"earlymod",  desc:"Christopher Columbus crosses the Atlantic and reaches the Caribbean, making Europeans aware of the Americas. It triggers the Columbian Exchange — reshaping the diets, economies, and populations of both hemispheres.",wiki:"https://simple.wikipedia.org/wiki/Christopher_Columbus"},
+      {year:1543, title:"Copernican Revolution", emoji:"☀️",era:"earlymod",  desc:"Nicolaus Copernicus publishes his proof that the Earth orbits the Sun, not the reverse. His heliocentric model overturns 1,400 years of accepted science and launches the Scientific Revolution.",wiki:"https://simple.wikipedia.org/wiki/Nicolaus_Copernicus"},
+      {year:1687, title:"Newton's Principia",    emoji:"🍎",era:"earlymod",  desc:"Isaac Newton publishes his laws of motion and universal gravitation, explaining everything from falling apples to planetary orbits. It is arguably the most important book in the history of science.",wiki:"https://simple.wikipedia.org/wiki/Isaac_Newton"},
+      {year:1776, title:"American Independence", emoji:"🦅",era:"earlymod",  desc:"The thirteen American colonies declare independence from Britain, founding the United States. Inspired by Enlightenment ideals, the Declaration becomes a model for democratic revolutions worldwide.",wiki:"https://simple.wikipedia.org/wiki/United_States_Declaration_of_Independence"},
+      {year:1789, title:"French Revolution",     emoji:"🗼",era:"earlymod",  desc:"The people of France overthrow the monarchy and ancien régime in a violent revolution that spreads the ideas of liberty, equality, and fraternity — and the terror of the guillotine — across Europe.",wiki:"https://simple.wikipedia.org/wiki/French_Revolution"},
+      {year:1859, title:"Darwin's Evolution",    emoji:"🐢",era:"industrial",desc:"Charles Darwin publishes On the Origin of Species, arguing that all life evolved through natural selection. It fundamentally changes how humans understand their place in nature and time.",wiki:"https://simple.wikipedia.org/wiki/Charles_Darwin"},
+      {year:1903, title:"First Aeroplane",       emoji:"✈️",era:"industrial",desc:"Orville and Wilbur Wright make the first powered, controlled aircraft flight at Kitty Hawk, North Carolina. Lasting 12 seconds, it launches the aviation age that would shrink the world.",wiki:"https://simple.wikipedia.org/wiki/Wright_brothers"},
+      {year:1914, title:"World War I Begins",    emoji:"🪖",era:"industrial",desc:"The assassination of Archduke Franz Ferdinand triggers the First World War, pulling in every major power. Over 20 million die in four years of industrial-scale trench warfare that breaks four empires.",wiki:"https://simple.wikipedia.org/wiki/World_War_I"},
+      {year:1945, title:"World War II Ends",     emoji:"☮️",era:"industrial",desc:"World War II ends with Germany's surrender in May and Japan's in September, following the atomic bombings of Hiroshima and Nagasaki. Over 70 million people have died, reshaping the entire world order.",wiki:"https://simple.wikipedia.org/wiki/World_War_II"},
+      {year:1969, title:"First Moon Landing",    emoji:"🌕",era:"contemp",   desc:"Apollo 11 astronauts Neil Armstrong and Buzz Aldrin walk on the Moon — the first humans to do so. Watched live by 600 million people, it remains one of history's greatest achievements.",wiki:"https://simple.wikipedia.org/wiki/Apollo_11"},
+      {year:1989, title:"Berlin Wall Falls",     emoji:"🧱",era:"contemp",   desc:"East Germans tear down the Berlin Wall after 28 years of division, symbolising the collapse of Communist rule across Eastern Europe. Within two years, the Soviet Union itself dissolves.",wiki:"https://simple.wikipedia.org/wiki/Fall_of_the_Berlin_Wall"},
+    ],
+  },
+
+  britain: {
+    title:"British History", subtitle:"From Roman conquest to the modern United Kingdom",
+    start:0, end:2030,
+    zoomBase:1900,
+    tickMajor:100, tickLabel:100,
+    eraMeta:{
+      roman:  {label:"Roman Britain",   color:"#e05050", pill:"rgba(224,80,80,.15)",   border:"rgba(224,80,80,.45)"},
+      "br-med":{label:"Medieval",       color:"#60b050", pill:"rgba(96,176,80,.15)",   border:"rgba(96,176,80,.45)"},
+      tudor:  {label:"Tudor & Stuart",  color:"#b060e0", pill:"rgba(176,96,224,.15)",  border:"rgba(176,96,224,.45)"},
+      georgian:{label:"Georgian & Victorian",color:"#4080c0",pill:"rgba(64,128,192,.15)",border:"rgba(64,128,192,.45)"},
+      "br-mod":{label:"Modern Britain", color:"#e05050", pill:"rgba(224,80,80,.15)",   border:"rgba(224,80,80,.45)"},
+    },
+    eraBands:[
+      {key:"roman",   start:43,   end:410  },
+      {key:"br-med",  start:410,  end:1485 },
+      {key:"tudor",   start:1485, end:1714 },
+      {key:"georgian",start:1714, end:1901 },
+      {key:"br-mod",  start:1901, end:2030 },
+    ],
+    events:[
+      {year:43,   title:"Romans Arrive",         emoji:"🦅",era:"roman",   desc:"Emperor Claudius orders the invasion of Britain. Roman legions quickly subdue most of the island, founding cities including Londinium (London) and building roads still in use today.",wiki:"https://simple.wikipedia.org/wiki/Roman_Britain"},
+      {year:410,  title:"Romans Leave",          emoji:"🏛️",era:"roman",   desc:"The Roman legions withdraw from Britain as the empire struggles to defend its heartland. Without Roman protection, Britain faces raids from Saxons, Scots, and Picts. An era ends.",wiki:"https://simple.wikipedia.org/wiki/Roman_Britain"},
+      {year:793,  title:"Viking Raids Begin",    emoji:"🪓",era:"br-med",  desc:"Norse warriors attack the monastery at Lindisfarne in northeast England — the first major Viking raid on Britain. For the next 200 years, Viking armies plunder, settle, and eventually rule large parts of the British Isles.",wiki:"https://simple.wikipedia.org/wiki/Viking_Age"},
+      {year:1066, title:"Battle of Hastings",    emoji:"⚔️",era:"br-med",  desc:"Norman Duke William defeats King Harold II, who dies in battle. William the Conqueror is crowned King of England on Christmas Day, beginning a French-speaking Norman dynasty that transforms English culture.",wiki:"https://simple.wikipedia.org/wiki/Battle_of_Hastings"},
+      {year:1215, title:"Magna Carta",           emoji:"📜",era:"br-med",  desc:"Barons force King John to sign Magna Carta at Runnymede — the first document to limit royal power and establish legal rights for subjects. It plants the seeds of parliamentary democracy.",wiki:"https://simple.wikipedia.org/wiki/Magna_Carta"},
+      {year:1348, title:"Black Death Arrives",   emoji:"💀",era:"br-med",  desc:"The bubonic plague reaches England, killing up to half the population in some areas over two years. Labour shortages following the catastrophe help break the feudal system and give peasants new power.",wiki:"https://simple.wikipedia.org/wiki/Black_Death_in_England"},
+      {year:1415, title:"Battle of Agincourt",   emoji:"🏹",era:"br-med",  desc:"Henry V's outnumbered English archers defeat a much larger French army. The victory gives England control of northern France and makes Henry a national hero immortalised by Shakespeare.",wiki:"https://simple.wikipedia.org/wiki/Battle_of_Agincourt"},
+      {year:1534, title:"Henry VIII Breaks from Rome",emoji:"👑",era:"tudor",desc:"Henry VIII declares himself Supreme Head of the Church of England, separating from Catholic Rome to obtain a divorce. This Protestant Reformation reshapes British religion, politics, and culture for centuries.",wiki:"https://simple.wikipedia.org/wiki/English_Reformation"},
+      {year:1588, title:"Spanish Armada Defeated",emoji:"⛵",era:"tudor",  desc:"England's smaller fleet defeats the mighty Spanish Armada, sent by Philip II of Spain to invade England. The victory establishes England as a major naval power and protects the Protestant settlement.",wiki:"https://simple.wikipedia.org/wiki/Spanish_Armada"},
+      {year:1605, title:"Gunpowder Plot",        emoji:"💣",era:"tudor",   desc:"Guy Fawkes and Catholic conspirators are discovered attempting to blow up the Houses of Parliament and kill James I. The plot fails; Fawkes is executed, and November 5th becomes Bonfire Night.",wiki:"https://simple.wikipedia.org/wiki/Gunpowder_Plot"},
+      {year:1666, title:"Great Fire of London",  emoji:"🔥",era:"tudor",   desc:"A fire beginning in a Pudding Lane bakery burns for four days, destroying 13,200 houses and 87 churches including St Paul's Cathedral. The rebuilt city is planned by Christopher Wren.",wiki:"https://simple.wikipedia.org/wiki/Great_Fire_of_London"},
+      {year:1707, title:"Act of Union",          emoji:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",era:"georgian",desc:"England and Scotland unite to form the Kingdom of Great Britain. The union creates a single Parliament, a shared currency, and free trade between the two nations — the foundation of the modern UK.",wiki:"https://simple.wikipedia.org/wiki/Acts_of_Union_1707"},
+      {year:1769, title:"Watt's Steam Engine",   emoji:"🚂",era:"georgian",desc:"James Watt's improved steam engine is patented, making steam power practical for industry and transport. It helps ignite the Industrial Revolution that will transform Britain — and the world — within a generation.",wiki:"https://simple.wikipedia.org/wiki/James_Watt"},
+      {year:1805, title:"Battle of Trafalgar",   emoji:"🌊",era:"georgian",desc:"Admiral Nelson defeats the French and Spanish fleets off Cape Trafalgar, securing British naval supremacy for a century. Nelson is killed at the moment of victory, dying a national hero.",wiki:"https://simple.wikipedia.org/wiki/Battle_of_Trafalgar"},
+      {year:1837, title:"Victorian Era Begins",  emoji:"👸",era:"georgian",desc:"Queen Victoria, age 18, ascends the throne. Her 63-year reign sees Britain become the world's greatest industrial and imperial power, ruling over a quarter of the Earth's land surface.",wiki:"https://simple.wikipedia.org/wiki/Victorian_era"},
+      {year:1914, title:"World War I Begins",    emoji:"🪖",era:"br-mod",  desc:"Britain declares war on Germany following the invasion of Belgium. Over the next four years, nearly 900,000 British soldiers die on the Western Front and beyond. The Empire is forever changed.",wiki:"https://simple.wikipedia.org/wiki/United_Kingdom_in_World_War_I"},
+      {year:1940, title:"Battle of Britain",     emoji:"✈️",era:"br-mod",  desc:"The Royal Air Force defends Britain against the Luftwaffe in the world's first major air campaign. Churchill calls it Britain's 'finest hour.' The RAF's victory prevents a German invasion.",wiki:"https://simple.wikipedia.org/wiki/Battle_of_Britain"},
+      {year:1948, title:"NHS Founded",           emoji:"🏥",era:"br-mod",  desc:"The National Health Service is created by Health Secretary Aneurin Bevan, providing free healthcare for all regardless of wealth. It remains one of Britain's proudest post-war achievements.",wiki:"https://simple.wikipedia.org/wiki/National_Health_Service"},
+      {year:1979, title:"First Female PM",       emoji:"👩‍💼",era:"br-mod", desc:"Margaret Thatcher becomes Britain's first female Prime Minister. Her radical free-market policies — privatisation, breaking union power, and deregulation — reshape British economics and politics.",wiki:"https://simple.wikipedia.org/wiki/Margaret_Thatcher"},
+      {year:1997, title:"Hong Kong Handover",    emoji:"🇭🇰",era:"br-mod", desc:"Britain returns Hong Kong to China after 156 years of colonial rule, under a 'one country, two systems' arrangement. It marks the effective end of the British Empire.",wiki:"https://simple.wikipedia.org/wiki/Handover_of_Hong_Kong"},
+      {year:2016, title:"Brexit Vote",           emoji:"🇬🇧",era:"br-mod", desc:"Britain votes 52% to 48% to leave the European Union in a bitterly divisive referendum. It triggers years of political turmoil, eventually leading to Britain's formal departure in 2020.",wiki:"https://simple.wikipedia.org/wiki/Brexit"},
+    ],
+  },
+
+  poland: {
+    title:"Polish History", subtitle:"Over 1,000 years — from Piast duchy to modern republic",
+    start:950, end:2045,
+    zoomBase:1900,
+    tickMajor:100, tickLabel:100,
+    eraMeta:{
+      piast: {label:"Piast Dynasty",    color:"#c9a227", pill:"rgba(201,162,39,.15)", border:"rgba(201,162,39,.45)"},
+      jagiel:{label:"Jagiellonian Era", color:"#c060e0", pill:"rgba(192,96,224,.15)",border:"rgba(192,96,224,.45)"},
+      common:{label:"Commonwealth",     color:"#e05050", pill:"rgba(224,80,80,.15)",  border:"rgba(224,80,80,.45)"},
+      part:  {label:"Partitions Era",   color:"#8888aa", pill:"rgba(136,136,170,.15)",border:"rgba(136,136,170,.45)"},
+      modern:{label:"Modern Poland",    color:"#5090e0", pill:"rgba(80,144,224,.15)", border:"rgba(80,144,224,.45)"},
+    },
+    eraBands:[
+      {key:"piast", start:966,  end:1386},
+      {key:"jagiel",start:1386, end:1572},
+      {key:"common",start:1572, end:1795},
+      {key:"part",  start:1795, end:1918},
+      {key:"modern",start:1918, end:2045},
+    ],
+    events:[
+      {year:966, title:"Baptism of Poland",      emoji:"✝️",era:"piast", desc:"Duke Mieszko I accepts Christianity, aligning Poland with Western Europe. This single act defined Polish identity and culture for over a thousand years to come.",wiki:"https://simple.wikipedia.org/wiki/Christianization_of_Poland"},
+      {year:1025,title:"First King of Poland",   emoji:"👑",era:"piast", desc:"Bolesław I the Brave is crowned the first King of Poland, having tripled the kingdom's territory through bold campaigns. Poland takes its place among Europe's royal states.",wiki:"https://simple.wikipedia.org/wiki/Boles%C5%82aw_I_the_Brave"},
+      {year:1241,title:"Mongol Invasion",        emoji:"🐎",era:"piast", desc:"The Mongol army sweeps through Poland, sacking Kraków and defeating Polish knights at the Battle of Legnica. The country is devastated, though the Mongols withdraw shortly after.",wiki:"https://simple.wikipedia.org/wiki/Mongol_invasion_of_Poland"},
+      {year:1320,title:"Poland Reunited",        emoji:"⚔️",era:"piast", desc:"After 180 years of fragmentation, Władysław I reunites most Polish lands and is crowned King, ending the long age of division.",wiki:"https://simple.wikipedia.org/wiki/Vladislaus_I_the_Elbow-high"},
+      {year:1364,title:"Jagiellonian University",emoji:"🎓",era:"piast", desc:"Casimir the Great founds the Kraków Academy — now the Jagiellonian University — one of the world's oldest, a lasting beacon of learning in Central Europe.",wiki:"https://simple.wikipedia.org/wiki/Jagiellonian_University"},
+      {year:1410,title:"Battle of Grunwald",     emoji:"🏆",era:"jagiel",desc:"Allied Polish-Lithuanian forces crush the Teutonic Knights in one of medieval Europe's largest battles, securing Poland's northern frontier for generations.",wiki:"https://simple.wikipedia.org/wiki/Battle_of_Grunwald"},
+      {year:1473,title:"Copernicus Born",        emoji:"🔭",era:"jagiel",desc:"Nicolaus Copernicus is born in Royal Prussia. He will prove the Earth orbits the Sun — overturning 1,400 years of accepted science and launching the Scientific Revolution.",wiki:"https://simple.wikipedia.org/wiki/Nicolaus_Copernicus"},
+      {year:1543,title:"Heliocentric Revolution",emoji:"☀️",era:"common",desc:"Copernicus publishes his heliocentric model in the final year of his life. His quiet book shook the foundations of science, philosophy, and the Church's authority.",wiki:"https://simple.wikipedia.org/wiki/Nicolaus_Copernicus"},
+      {year:1569,title:"Union of Lublin",        emoji:"🤝",era:"common",desc:"Poland and Lithuania formally unite into the Polish-Lithuanian Commonwealth — one of Europe's largest, most tolerant states, pioneering an elected monarchy and parliamentary government.",wiki:"https://simple.wikipedia.org/wiki/Union_of_Lublin"},
+      {year:1683,title:"Battle of Vienna",       emoji:"🌙",era:"common",desc:"King Jan III Sobieski leads the largest cavalry charge in history to relieve besieged Vienna. His victory over the Ottoman army is celebrated across Christian Europe as a turning point.",wiki:"https://simple.wikipedia.org/wiki/Battle_of_Vienna"},
+      {year:1791,title:"Constitution of May 3rd",emoji:"📜",era:"common",desc:"Poland adopts the world's first modern national constitution — second only to the United States. It came too late; neighbours were already plotting the country's partition.",wiki:"https://simple.wikipedia.org/wiki/Constitution_of_May_3,_1791"},
+      {year:1795,title:"Poland Disappears",      emoji:"💔",era:"part",  desc:"The Third Partition sees Russia, Prussia, and Austria divide all remaining Polish territory. Poland ceases to exist as an independent state for the next 123 years.",wiki:"https://simple.wikipedia.org/wiki/Partitions_of_Poland"},
+      {year:1830,title:"November Uprising",      emoji:"🔥",era:"part",  desc:"Polish officers and students revolt against Russian rule. After early successes the rebellion is crushed, and Russia bans the Polish language and culture in schools.",wiki:"https://simple.wikipedia.org/wiki/November_Uprising"},
+      {year:1867,title:"Marie Curie Born",       emoji:"⚗️",era:"part",  desc:"Maria Skłodowska is born in Russian-occupied Warsaw. Barred from higher education at home, she moves to Paris and becomes the first person to win Nobel Prizes in two different sciences.",wiki:"https://simple.wikipedia.org/wiki/Marie_Curie"},
+      {year:1918,title:"Poland Reborn",          emoji:"🦅",era:"modern",desc:"After 123 years of partition, Poland re-emerges as the Second Polish Republic following the collapse of three empires. November 11th — Armistice Day — becomes Polish Independence Day.",wiki:"https://simple.wikipedia.org/wiki/Second_Polish_Republic"},
+      {year:1920,title:"Miracle on the Vistula", emoji:"⚡",era:"modern",desc:"Poland's young army halts the Soviet Red Army's advance on Warsaw — one of the 20th century's most decisive battles — stopping the Soviet push westward into Europe.",wiki:"https://simple.wikipedia.org/wiki/Battle_of_Warsaw_(1920)"},
+      {year:1939,title:"Invaded from Both Sides",emoji:"💣",era:"modern",desc:"Nazi Germany invades on September 1st; the USSR follows on September 17th. Poland is occupied and partitioned again. Over six years, more than 6 million Polish citizens die.",wiki:"https://simple.wikipedia.org/wiki/Invasion_of_Poland"},
+      {year:1944,title:"Warsaw Uprising",        emoji:"🏴",era:"modern",desc:"The Polish Home Army rises against Nazi occupation in the largest WWII urban resistance operation. After 63 brutal days it is crushed. Hitler orders Warsaw razed to the ground.",wiki:"https://simple.wikipedia.org/wiki/Warsaw_Uprising"},
+      {year:1980,title:"Solidarity Born",        emoji:"✊",era:"modern",desc:"Workers led by Lech Wałęsa form Solidarity at the Gdańsk shipyard — the first free trade union in the Soviet bloc. It grows to 10 million members and begins dismantling communism from within.",wiki:"https://simple.wikipedia.org/wiki/Solidarity_(Polish_trade_union)"},
+      {year:1989,title:"Freedom Restored",       emoji:"🕊️",era:"modern",desc:"The Round Table Agreement leads to semi-free elections. Solidarity wins a landslide. Poland becomes the first post-Communist democracy — triggering a wave of change across Europe.",wiki:"https://simple.wikipedia.org/wiki/Polish_Round_Table_Agreement"},
+      {year:2004,title:"Joins the European Union",emoji:"🇪🇺",era:"modern",desc:"Poland joins the EU on May 1st. It becomes one of Europe's fastest-growing economies and Poles gain the freedom to live and work across the continent.",wiki:"https://simple.wikipedia.org/wiki/Poland"},
+    ],
+  },
 };
-
-const ERA_BANDS = [
-  { key:"piast",  start:966,  end:1386 },
-  { key:"jagiel", start:1386, end:1572 },
-  { key:"common", start:1572, end:1795 },
-  { key:"part",   start:1795, end:1918 },
-  { key:"modern", start:1918, end:2040 },
-];
-
-const TL_START = 950, TL_END = 2045;
-const TL_SPAN  = TL_END - TL_START;
-const pct = y => ((y - TL_START) / TL_SPAN * 100).toFixed(3) + '%';
-
-const LEARN_EVENTS = [
-  { year:966,  title:"Baptism of Poland",       emoji:"✝️",  era:"piast",
-    desc:"Duke Mieszko I accepts Christianity, aligning Poland with Western Europe. This single political act defined Polish identity and culture for over a thousand years.",
-    wiki:"https://simple.wikipedia.org/wiki/Christianization_of_Poland" },
-  { year:1025, title:"First King of Poland",    emoji:"👑",  era:"piast",
-    desc:"Bolesław I the Brave is crowned the first King of Poland, having tripled the kingdom's territory through bold campaigns. Poland takes its place among Europe's royal states.",
-    wiki:"https://simple.wikipedia.org/wiki/Boles%C5%82aw_I_the_Brave" },
-  { year:1241, title:"Mongol Invasion",         emoji:"🐎",  era:"piast",
-    desc:"The Mongol army sweeps through Poland, sacking Kraków and defeating Polish knights at the Battle of Legnica. The country is devastated, though the Mongols soon withdraw.",
-    wiki:"https://simple.wikipedia.org/wiki/Mongol_invasion_of_Poland" },
-  { year:1320, title:"Poland Reunited",         emoji:"⚔️",  era:"piast",
-    desc:"After 180 years of fragmentation among rival princes, Władysław I the Short reunites most Polish lands and is crowned King, ending the long age of division.",
-    wiki:"https://simple.wikipedia.org/wiki/Vladislaus_I_the_Elbow-high" },
-  { year:1364, title:"Jagiellonian University", emoji:"🎓",  era:"piast",
-    desc:"Casimir the Great founds the Kraków Academy — later the Jagiellonian University — one of the oldest universities in the world and a lasting beacon of learning.",
-    wiki:"https://simple.wikipedia.org/wiki/Jagiellonian_University" },
-  { year:1410, title:"Battle of Grunwald",      emoji:"🏆",  era:"jagiel",
-    desc:"Allied Polish-Lithuanian forces crush the Teutonic Knights in one of medieval Europe's largest battles, breaking their power and securing Poland's northern frontier for generations.",
-    wiki:"https://simple.wikipedia.org/wiki/Battle_of_Grunwald" },
-  { year:1473, title:"Copernicus Born",         emoji:"🔭",  era:"jagiel",
-    desc:"Nicolaus Copernicus is born in Royal Prussia. He will grow up to prove the Earth orbits the Sun — overturning 1,400 years of accepted science and launching the Scientific Revolution.",
-    wiki:"https://simple.wikipedia.org/wiki/Nicolaus_Copernicus" },
-  { year:1543, title:"Heliocentric Revolution", emoji:"☀️",  era:"common",
-    desc:"Copernicus publishes his heliocentric model in the final year of his life. His quiet book shook the foundations of science, philosophy, and the Church's authority.",
-    wiki:"https://simple.wikipedia.org/wiki/Nicolaus_Copernicus" },
-  { year:1569, title:"Union of Lublin",         emoji:"🤝",  era:"common",
-    desc:"Poland and Lithuania formally unite into the Polish-Lithuanian Commonwealth — one of Europe's largest, most tolerant states, pioneering an elected monarchy and parliamentary rule.",
-    wiki:"https://simple.wikipedia.org/wiki/Union_of_Lublin" },
-  { year:1683, title:"Battle of Vienna",        emoji:"🌙",  era:"common",
-    desc:"King Jan III Sobieski leads the largest cavalry charge in history to relieve besieged Vienna. His victory over the Ottoman army is celebrated across Christian Europe as a turning point.",
-    wiki:"https://simple.wikipedia.org/wiki/Battle_of_Vienna" },
-  { year:1791, title:"Constitution of May 3rd", emoji:"📜",  era:"common",
-    desc:"Poland adopts the world's first modern national constitution — second only to the United States. It came too late; neighbours were already plotting the country's partition.",
-    wiki:"https://simple.wikipedia.org/wiki/Constitution_of_May_3,_1791" },
-  { year:1795, title:"Poland Disappears",       emoji:"💔",  era:"part",
-    desc:"The Third Partition sees Russia, Prussia, and Austria divide all remaining Polish territory between them. Poland ceases to exist as an independent state for the next 123 years.",
-    wiki:"https://simple.wikipedia.org/wiki/Partitions_of_Poland" },
-  { year:1830, title:"November Uprising",       emoji:"🔥",  era:"part",
-    desc:"Polish officers and students revolt against Russian rule. After early successes the rebellion is crushed, and Russia responds by banning Polish language and culture in schools.",
-    wiki:"https://simple.wikipedia.org/wiki/November_Uprising" },
-  { year:1867, title:"Marie Curie Born",        emoji:"⚗️",  era:"part",
-    desc:"Maria Skłodowska is born in Russian-occupied Warsaw. Barred from higher education at home, she moves to Paris — and becomes the first person to win Nobel Prizes in two different sciences.",
-    wiki:"https://simple.wikipedia.org/wiki/Marie_Curie" },
-  { year:1918, title:"Poland Reborn",           emoji:"🦅",  era:"modern",
-    desc:"After 123 years of partition, Poland re-emerges as the Second Polish Republic following the collapse of three empires. November 11th — Armistice Day — became Polish Independence Day.",
-    wiki:"https://simple.wikipedia.org/wiki/Second_Polish_Republic" },
-  { year:1920, title:"Miracle on the Vistula", emoji:"⚡",  era:"modern",
-    desc:"Poland's young army halts the Soviet Red Army's advance on Warsaw in one of the 20th century's most decisive battles — stopping the Soviet push westward into Europe.",
-    wiki:"https://simple.wikipedia.org/wiki/Battle_of_Warsaw_(1920)" },
-  { year:1939, title:"Invaded from Both Sides", emoji:"💣",  era:"modern",
-    desc:"Nazi Germany invades on September 1st; the USSR follows on September 17th. Poland is occupied and partitioned again. Over the following six years, over 6 million Polish citizens die.",
-    wiki:"https://simple.wikipedia.org/wiki/Invasion_of_Poland" },
-  { year:1944, title:"Warsaw Uprising",         emoji:"🏴",  era:"modern",
-    desc:"The Polish Home Army rises against Nazi occupation in the largest WWII urban resistance operation. After 63 brutal days, it is crushed. Hitler orders Warsaw razed to the ground.",
-    wiki:"https://simple.wikipedia.org/wiki/Warsaw_Uprising" },
-  { year:1980, title:"Solidarity Born",         emoji:"✊",  era:"modern",
-    desc:"Workers led by Lech Wałęsa form Solidarity at the Gdańsk shipyard — the first free trade union in the Soviet bloc. It rapidly grows to 10 million members and begins dismantling communism from within.",
-    wiki:"https://simple.wikipedia.org/wiki/Solidarity_(Polish_trade_union)" },
-  { year:1989, title:"Freedom Restored",        emoji:"🕊️",  era:"modern",
-    desc:"The Round Table Agreement leads to semi-free elections. Solidarity wins a landslide. Poland becomes the first post-Communist democracy in Europe — triggering a wave of change across the continent.",
-    wiki:"https://simple.wikipedia.org/wiki/Polish_Round_Table_Agreement" },
-  { year:2004, title:"Joins the European Union",emoji:"🇪🇺",  era:"modern",
-    desc:"Poland joins the EU on May 1st, completing its post-Communist transformation. It quickly becomes one of Europe's fastest-growing economies, and Poles gain the freedom to live and work across the continent.",
-    wiki:"https://simple.wikipedia.org/wiki/Poland" },
-];
 
 // ============================================================
 // GAME STATE
 // ============================================================
-let mode = 'world';
-let rounds = [], currentRound = 0, score = 0;
+let mode = 'world', rounds = [], currentRound = 0, score = 0;
 let roundResults = [], hintUsed = false, answered = false;
 let selectedCard = null, slotContents = [];
 
 const ZOOM_WIDTHS = [1200, 1900, 2800, 4200];
-let zoomIdx = 1;
-let tlBuilt  = false;
-let activeNode = null;
+let zoomIdx = 1, currentLearnView = 'world', activeNode = null;
 
 // ============================================================
 // VIEW SWITCHER
@@ -781,327 +733,93 @@ function switchView(v, btn) {
   btn.classList.add('active');
   document.getElementById('playSection').style.display  = v === 'play'  ? '' : 'none';
   document.getElementById('learnSection').style.display = v === 'learn' ? 'block' : 'none';
-  if (v === 'learn' && !tlBuilt) buildTimeline();
+  if (v === 'learn') renderLearn(currentLearnView);
 }
 
-// ============================================================
-// INIT
-// ============================================================
-function buildStars() {
-  const sf = document.getElementById('starfield');
-  for (let i = 0; i < 60; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const sz = Math.random() * 2.2 + 0.4;
-    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;`;
-    sf.appendChild(s);
-  }
-}
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; }
-  return a;
-}
-
-function setMode(m, btn) {
-  mode = m;
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+function switchLearnView(v, btn) {
+  document.querySelectorAll('.learn-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  restart();
+  currentLearnView = v;
+  closeDetail();
+  zoomIdx = 1;
+  document.getElementById('zoomLevel').textContent = '100%';
+  renderLearn(v);
 }
 
-function getRounds() {
-  let pool;
-  if      (mode === 'world')   pool = WORLD;
-  else if (mode === 'britain') pool = BRITAIN;
-  else if (mode === 'poland')  pool = POLAND;
-  else pool = [...shuffle(WORLD).slice(0,3), ...shuffle(BRITAIN).slice(0,3), ...shuffle(POLAND).slice(0,2), ...MIXED_EXTRA.slice(0,2)];
-  return shuffle(pool).slice(0, 10);
-}
-
-function restart() {
-  score = 0; currentRound = 0; roundResults = [];
-  rounds = getRounds(); updateHUD(); loadRound();
-}
-
-// ============================================================
-// ROUND
-// ============================================================
-function loadRound() {
-  answered = false; hintUsed = false; selectedCard = null;
-  slotContents = [null, null, null, null];
-  document.getElementById('questionLabel').textContent = rounds[currentRound].q;
-  buildProgressTrack();
-  renderPool(shuffle(rounds[currentRound].items));
-  renderSlots();
-  document.getElementById('hintBox').className = 'hint-box';
-  document.getElementById('answerReveal').className = 'answer-reveal';
-  document.getElementById('answerReveal').innerHTML = '<div class="answer-reveal-title">Correct order:</div>';
-  document.getElementById('resultBanner').className = 'result-banner';
-  document.getElementById('nextBtn').style.display = 'none';
-  document.getElementById('restartBtn').style.display = 'none';
+function renderLearn(key) {
+  const tl = TL_DATA[key];
+  document.getElementById('learnTitle').textContent    = tl.title;
+  document.getElementById('learnSubtitle').textContent = tl.subtitle;
+  document.getElementById('tlInner').innerHTML = '';
+  document.getElementById('tlInner').style.width = ZOOM_WIDTHS[zoomIdx] + 'px';
+  buildTimeline(key);
+  enableDragScroll(document.getElementById('tlOuter'));
 }
 
 // ============================================================
-// RENDER
+// TIMELINE BUILDER
 // ============================================================
-function renderPool(itemsOrdered) {
-  const pool = document.getElementById('cardPool');
-  pool.innerHTML = '';
-  const inSlot = slotContents.filter(Boolean).map(i => i.name);
-  (itemsOrdered || rounds[currentRound].items).forEach(item => {
-    if (!inSlot.includes(item.name)) pool.appendChild(makeCard(item, 'pool'));
-  });
-  if (selectedCard) {
-    pool.querySelectorAll('.hcard').forEach(c => {
-      if (c.dataset.name === selectedCard.name) c.classList.add('selected');
-    });
-  }
-}
-
-function renderSlots() {
-  const panel = document.getElementById('slotsPanel');
-  panel.innerHTML = '';
-  for (let i = 0; i < 4; i++) {
-    const slot = document.createElement('div');
-    slot.className = 'slot' + (slotContents[i] ? ' slot-ready' : '') + (answered ? ' locked' : '');
-    if (!slotContents[i] && selectedCard && !answered) slot.classList.add('slot-target');
-    const num = document.createElement('span');
-    num.className = 'slot-num'; num.textContent = i + 1;
-    slot.appendChild(num);
-    if (slotContents[i]) {
-      slot.appendChild(makeCard(slotContents[i], 'slot-' + i));
-    } else {
-      const hint = document.createElement('span');
-      hint.className = 'slot-empty-hint';
-      hint.textContent = i === 0 ? 'earliest…' : i === 3 ? 'latest…' : '…';
-      slot.appendChild(hint);
-    }
-    slot.addEventListener('click', () => onSlotClick(i));
-    panel.appendChild(slot);
-  }
-}
-
-function makeCard(item, location) {
-  const card = document.createElement('div');
-  card.className = 'hcard';
-  card.dataset.name = item.name;
-  card.dataset.year = item.year;
-  const wikiHTML = item.wiki
-    ? `<a class="card-wiki" href="${item.wiki}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">↗ read more</a>`
-    : '';
-  card.innerHTML = `
-    <span class="card-emoji">${item.emoji}</span>
-    <span class="card-text">
-      <span class="card-name">${item.name}</span>
-      <span class="card-era">${item.era}</span>
-      ${wikiHTML}
-    </span>`;
-  card.addEventListener('click', () => onCardClick(item, location));
-  return card;
-}
-
-// ============================================================
-// INTERACTION
-// ============================================================
-function onCardClick(item, location) {
-  if (answered) return;
-  if (location.startsWith('slot-')) {
-    const idx = parseInt(location.split('-')[1]);
-    slotContents[idx] = null; selectedCard = item; rebuildView(); return;
-  }
-  if (selectedCard && selectedCard.name === item.name) { selectedCard = null; rebuildView(); return; }
-  selectedCard = item; rebuildView();
-}
-
-function onSlotClick(idx) {
-  if (answered) return;
-  if (!selectedCard) {
-    if (slotContents[idx]) { selectedCard = slotContents[idx]; slotContents[idx] = null; rebuildView(); }
-    return;
-  }
-  const prev = slotContents[idx];
-  slotContents[idx] = selectedCard;
-  selectedCard = prev || null;
-  rebuildView();
-}
-
-function rebuildView() { renderPool(); renderSlots(); }
-
-// ============================================================
-// GAME LOGIC
-// ============================================================
-function checkAnswer() {
-  if (answered) return;
-  if (slotContents.some(s => !s)) {
-    showBanner(false, '📜 Not yet!', 'Place all four cards in the numbered slots first.'); return;
-  }
-  const round  = rounds[currentRound];
-  const sorted = [...round.items].sort((a,b) => a.year - b.year);
-  let allCorrect = true;
-  answered = true;
-
-  const slotEls = document.getElementById('slotsPanel').querySelectorAll('.slot');
-  slotContents.forEach((item, i) => {
-    const correct = item.year === sorted[i].year;
-    if (!correct) allCorrect = false;
-    const cardEl = slotEls[i].querySelector('.hcard');
-    if (cardEl) {
-      cardEl.classList.add(correct ? 'correct' : 'wrong', 'locked');
-      const eraEl = cardEl.querySelector('.card-era');
-      if (eraEl) eraEl.style.visibility = 'visible';
-    }
-    slotEls[i].classList.add('locked');
-  });
-
-  // Reveal wiki links on all cards now that the round is answered
-  document.querySelectorAll('.card-wiki').forEach(a => a.classList.add('revealed'));
-
-  if (allCorrect) {
-    score += hintUsed ? 5 : 10; roundResults.push(true);
-    showBanner(true, '🏆 Brilliant!', hintUsed ? '+5 points (hint used)' : '+10 points! Perfect order!');
-  } else {
-    score += 2; roundResults.push(false);
-    showBanner(false, '⚔️ Not quite!', '+2 points for trying. Correct order below.');
-    showCorrectOrder(sorted);
-  }
-  updateHUD(); buildProgressTrack();
-  document.getElementById('nextBtn').style.display    = currentRound < rounds.length-1 ? 'inline-block' : 'none';
-  document.getElementById('restartBtn').style.display = currentRound >= rounds.length-1 ? 'inline-block' : 'none';
-}
-
-function showCorrectOrder(sorted) {
-  const ar = document.getElementById('answerReveal');
-  ar.innerHTML = '<div class="answer-reveal-title">Correct order:</div>';
-  sorted.forEach((item, i) => {
-    const chip = document.createElement('div');
-    chip.className = 'answer-chip';
-    chip.innerHTML = `<span class="chip-num">${i+1}.</span>${item.emoji} ${item.name} <span style="opacity:0.5">(${item.era})</span>`;
-    ar.appendChild(chip);
-  });
-  ar.className = 'answer-reveal show';
-}
-
-function nextRound()  { if (currentRound < rounds.length-1) { currentRound++; loadRound(); } }
-
-function showHint() {
-  if (answered) return;
-  hintUsed = true;
-  const hints = {
-    world:   '💡 Think: ancient civilisations → classical empires → medieval → early modern → 20th century.',
-    britain: '💡 Think: ancient & Roman → Viking/Norman → medieval → Tudor/Stuart → Victorian → modern.',
-    poland:  '💡 Think: Piast dynasty (966–1370) → Jagiellonian & Commonwealth → Partitions (1795–1918) → modern Poland.',
-    mixed:   '💡 Think broadly: ancient world → medieval → early modern exploration → 20th century.',
-  };
-  document.getElementById('hintBox').textContent = hints[mode] || hints.world;
-  document.getElementById('hintBox').className = 'hint-box show';
-}
-
-function clearSlots() {
-  if (answered) return;
-  slotContents = [null,null,null,null]; selectedCard = null; rebuildView();
-}
-
-function showBanner(success, title, msg) {
-  const b = document.getElementById('resultBanner');
-  b.className = 'result-banner show ' + (success ? 'success' : 'fail');
-  document.getElementById('resultTitle').textContent = title;
-  document.getElementById('resultMsg').textContent   = msg;
-}
-
-function buildProgressTrack() {
-  const pt = document.getElementById('progressTrack');
-  pt.innerHTML = '';
-  for (let i = 0; i < rounds.length; i++) {
-    const d = document.createElement('div');
-    d.className = 'prog-dot' + (i < roundResults.length ? (roundResults[i] ? ' correct-dot' : ' wrong-dot') : i === currentRound ? ' current' : '');
-    pt.appendChild(d);
-  }
-}
-
-function updateHUD() {
-  document.getElementById('scoreDisplay').textContent  = score;
-  document.getElementById('roundDisplay').textContent  = currentRound + 1;
-  const p = score / (rounds.length * 10);
-  document.getElementById('starsDisplay').textContent  = p>=0.9?'⭐⭐⭐':p>=0.6?'⭐⭐☆':p>=0.3?'⭐☆☆':'☆☆☆';
-}
-
-// ============================================================
-// LEARN TIMELINE
-// ============================================================
-function buildTimeline() {
-  tlBuilt = true;
+function buildTimeline(key) {
+  const tl   = TL_DATA[key];
+  const span = tl.end - tl.start;
+  const p    = y => ((y - tl.start) / span * 100).toFixed(3) + '%';
   const inner = document.getElementById('tlInner');
-  inner.style.width = ZOOM_WIDTHS[zoomIdx] + 'px';
 
   // Era bands
-  ERA_BANDS.forEach(b => {
+  tl.eraBands.forEach(b => {
     const band = document.createElement('div');
     band.className = 'era-band ' + b.key;
-    band.style.left  = pct(b.start);
-    band.style.width = ((b.end - b.start) / TL_SPAN * 100).toFixed(3) + '%';
+    band.style.left  = p(b.start);
+    band.style.width = ((b.end - b.start) / span * 100).toFixed(3) + '%';
     inner.appendChild(band);
-
     const tag = document.createElement('div');
-    tag.className = 'era-tag ' + b.key;
-    tag.textContent = ERA_META[b.key].label.toUpperCase();
-    tag.style.left  = pct(b.start);
-    tag.style.width = ((b.end - b.start) / TL_SPAN * 100).toFixed(3) + '%';
+    tag.className   = 'era-tag ' + b.key;
+    tag.textContent = tl.eraMeta[b.key].label.toUpperCase();
+    tag.style.left  = p(b.start);
+    tag.style.width = ((b.end - b.start) / span * 100).toFixed(3) + '%';
     inner.appendChild(tag);
   });
 
   // Spine
-  const spine = document.createElement('div');
-  spine.className = 'tl-spine';
+  const spine = document.createElement('div'); spine.className = 'tl-spine';
   inner.appendChild(spine);
 
-  // Tick marks every 50 years
-  for (let y = 1000; y <= 2000; y += 50) {
+  // Tick marks
+  const first = Math.ceil(tl.start / tl.tickMajor) * tl.tickMajor;
+  for (let y = first; y < tl.end; y += tl.tickMajor) {
     const tick = document.createElement('div');
-    tick.className = 'tl-tick' + (y % 100 === 0 ? ' tl-tick-major' : '');
-    tick.style.left   = pct(y);
-    tick.style.height = y % 100 === 0 ? '50px' : '28px';
-    tick.style.top    = 'calc(50% - ' + (y % 100 === 0 ? 25 : 14) + 'px)';
+    tick.className = 'tl-tick tl-tick-maj';
+    tick.style.left = p(y); tick.style.height = '36px'; tick.style.top = 'calc(50% - 18px)';
     inner.appendChild(tick);
-    if (y % 100 === 0) {
+    if (y % tl.tickLabel === 0) {
       const lbl = document.createElement('div');
       lbl.className = 'tl-tick-lbl';
-      lbl.style.left = pct(y);
-      lbl.style.top  = 'calc(50% + 28px)';
-      lbl.textContent = y + ' AD';
+      lbl.style.left = p(y);
+      lbl.textContent = y < 0 ? Math.abs(y) + ' BC' : y + ' AD';
       inner.appendChild(lbl);
     }
   }
 
-  // Event nodes  (alternate above / below)
-  LEARN_EVENTS.forEach((ev, i) => {
-    const node = document.createElement('div');
+  // Event nodes
+  tl.events.forEach((ev, i) => {
     const above = i % 2 === 0;
-    node.className = 'tl-node ' + (above ? 'above' : 'below');
-    node.style.left = pct(ev.year);
+    const node  = document.createElement('div');
+    node.className  = 'tl-node ' + (above ? 'above' : 'below');
+    node.style.left = p(ev.year);
 
     const dot  = document.createElement('div'); dot.className  = 'tl-dot';
     const stem = document.createElement('div'); stem.className = 'tl-stem';
-
     const card = document.createElement('div'); card.className = 'tl-card';
-    card.innerHTML = `<span class="tl-emoji">${ev.emoji}</span><span class="tl-year">${ev.year} AD</span><span class="tl-name">${ev.title}</span>`;
 
-    if (above) {
-      node.appendChild(card);
-      node.appendChild(stem);
-      node.appendChild(dot);
-    } else {
-      node.appendChild(dot);
-      node.appendChild(stem);
-      node.appendChild(card);
-    }
+    const yrText = ev.year < 0 ? Math.abs(ev.year) + ' BC' : ev.year + ' AD';
+    card.innerHTML = `<span class="tl-emoji">${ev.emoji}</span><span class="tl-year">${yrText}</span><span class="tl-name">${ev.title}</span>`;
 
-    node.addEventListener('click', () => openDetail(ev, node));
+    if (above) { node.appendChild(card); node.appendChild(stem); node.appendChild(dot); }
+    else       { node.appendChild(dot);  node.appendChild(stem); node.appendChild(card); }
+
+    node.addEventListener('click', () => openDetail(ev, node, tl.eraMeta));
     inner.appendChild(node);
   });
-
-  enableDragScroll(document.getElementById('tlOuter'));
 }
 
 function adjustZoom(dir) {
@@ -1110,29 +828,22 @@ function adjustZoom(dir) {
   document.getElementById('zoomLevel').textContent = Math.round(ZOOM_WIDTHS[zoomIdx] / ZOOM_WIDTHS[1] * 100) + '%';
 }
 
-function openDetail(ev, node) {
+function openDetail(ev, node, eraMeta) {
   if (activeNode) activeNode.classList.remove('active');
-  activeNode = node;
-  node.classList.add('active');
-
-  const m = ERA_META[ev.era];
+  activeNode = node; node.classList.add('active');
+  const m = eraMeta[ev.era];
   document.getElementById('detailStripe').style.background = m.color;
   document.getElementById('detailEmoji').textContent = ev.emoji;
   document.getElementById('detailTitle').textContent = ev.title;
-  document.getElementById('detailYear').textContent  = ev.year + ' AD';
-
+  const yrText = ev.year < 0 ? Math.abs(ev.year) + ' BC' : ev.year + ' AD';
+  document.getElementById('detailYear').textContent = yrText;
   const pill = document.getElementById('detailEraPill');
-  pill.textContent = m.label;
-  pill.style.background   = m.pill;
-  pill.style.color        = m.color;
-  pill.style.borderColor  = m.border;
-
+  pill.textContent = m.label; pill.style.background = m.pill; pill.style.color = m.color; pill.style.borderColor = m.border;
   document.getElementById('detailDesc').textContent = ev.desc;
   document.getElementById('detailWiki').href = ev.wiki;
-
   const panel = document.getElementById('detailPanel');
   panel.className = 'detail-panel show';
-  setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'nearest' }), 50);
+  setTimeout(() => panel.scrollIntoView({behavior:'smooth',block:'nearest'}), 50);
 }
 
 function closeDetail() {
@@ -1141,15 +852,142 @@ function closeDetail() {
 }
 
 function enableDragScroll(el) {
-  let down = false, startX, scrollLeft;
-  el.addEventListener('mousedown',  e => { down = true; el.classList.add('grabbing'); startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; });
-  el.addEventListener('mouseleave', () => { down = false; el.classList.remove('grabbing'); });
-  el.addEventListener('mouseup',    () => { down = false; el.classList.remove('grabbing'); });
-  el.addEventListener('mousemove',  e => { if (!down) return; e.preventDefault(); el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX); });
+  el.onmousedown = e => {
+    let startX = e.pageX - el.offsetLeft, sl = el.scrollLeft;
+    el.classList.add('grabbing');
+    const onMove = e => { if (e.buttons) el.scrollLeft = sl - (e.pageX - el.offsetLeft - startX); };
+    const onUp   = () => { el.classList.remove('grabbing'); document.removeEventListener('mousemove',onMove); document.removeEventListener('mouseup',onUp); };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onUp);
+  };
 }
 
-buildStars();
-restart();
+// ============================================================
+// GAME INIT
+// ============================================================
+function buildStars() {
+  const sf = document.getElementById('starfield');
+  for (let i=0;i<60;i++){
+    const s = document.createElement('div'); s.className='star';
+    const z = Math.random()*2.2+.4;
+    s.style.cssText=`width:${z}px;height:${z}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;`;
+    sf.appendChild(s);
+  }
+}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function setMode(m,btn){mode=m;document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');restart();}
+
+function getRounds(){
+  let pool;
+  if(mode==='world') pool=WORLD; else if(mode==='britain') pool=BRITAIN;
+  else if(mode==='poland') pool=POLAND;
+  else pool=[...shuffle(WORLD).slice(0,3),...shuffle(BRITAIN).slice(0,3),...shuffle(POLAND).slice(0,2),...MIXED_EXTRA.slice(0,2)];
+  return shuffle(pool).slice(0,10);
+}
+
+function restart(){score=0;currentRound=0;roundResults=[];rounds=getRounds();updateHUD();loadRound();}
+
+function loadRound(){
+  answered=false;hintUsed=false;selectedCard=null;slotContents=[null,null,null,null];
+  document.getElementById('questionLabel').textContent=rounds[currentRound].q;
+  buildProgressTrack();renderPool(shuffle(rounds[currentRound].items));renderSlots();
+  document.getElementById('hintBox').className='hint-box';
+  document.getElementById('answerReveal').className='answer-reveal';
+  document.getElementById('answerReveal').innerHTML='<div class="answer-reveal-title">Correct order:</div>';
+  document.getElementById('resultBanner').className='result-banner';
+  document.getElementById('nextBtn').style.display='none';document.getElementById('restartBtn').style.display='none';
+}
+
+function renderPool(ord){
+  const pool=document.getElementById('cardPool');pool.innerHTML='';
+  const inSlot=slotContents.filter(Boolean).map(i=>i.name);
+  (ord||rounds[currentRound].items).forEach(item=>{if(!inSlot.includes(item.name))pool.appendChild(makeCard(item,'pool'));});
+  if(selectedCard)pool.querySelectorAll('.hcard').forEach(c=>{if(c.dataset.name===selectedCard.name)c.classList.add('selected');});
+}
+
+function renderSlots(){
+  const panel=document.getElementById('slotsPanel');panel.innerHTML='';
+  for(let i=0;i<4;i++){
+    const slot=document.createElement('div');
+    slot.className='slot'+(slotContents[i]?' slot-ready':'')+(answered?' locked':'');
+    if(!slotContents[i]&&selectedCard&&!answered)slot.classList.add('slot-target');
+    const num=document.createElement('span');num.className='slot-num';num.textContent=i+1;slot.appendChild(num);
+    if(slotContents[i]){slot.appendChild(makeCard(slotContents[i],'slot-'+i));}
+    else{const h=document.createElement('span');h.className='slot-empty-hint';h.textContent=i===0?'earliest…':i===3?'latest…':'…';slot.appendChild(h);}
+    slot.addEventListener('click',()=>onSlotClick(i));panel.appendChild(slot);
+  }
+}
+
+function makeCard(item,loc){
+  const card=document.createElement('div');card.className='hcard';card.dataset.name=item.name;card.dataset.year=item.year;
+  const wikiHTML=item.wiki?`<a class="card-wiki" href="${item.wiki}" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗ read more</a>`:'';
+  card.innerHTML=`<span class="card-emoji">${item.emoji}</span><span class="card-text"><span class="card-name">${item.name}</span><span class="card-era">${item.era}</span>${wikiHTML}</span>`;
+  card.addEventListener('click',()=>onCardClick(item,loc));return card;
+}
+
+function onCardClick(item,loc){
+  if(answered)return;
+  if(loc.startsWith('slot-')){const idx=parseInt(loc.split('-')[1]);slotContents[idx]=null;selectedCard=item;rebuildView();return;}
+  if(selectedCard&&selectedCard.name===item.name){selectedCard=null;rebuildView();return;}
+  selectedCard=item;rebuildView();
+}
+function onSlotClick(idx){
+  if(answered)return;
+  if(!selectedCard){if(slotContents[idx]){selectedCard=slotContents[idx];slotContents[idx]=null;rebuildView();}return;}
+  const prev=slotContents[idx];slotContents[idx]=selectedCard;selectedCard=prev||null;rebuildView();
+}
+function rebuildView(){renderPool();renderSlots();}
+
+function checkAnswer(){
+  if(answered)return;
+  if(slotContents.some(s=>!s)){showBanner(false,'📜 Not yet!','Place all four cards first.');return;}
+  const sorted=[...rounds[currentRound].items].sort((a,b)=>a.year-b.year);
+  let ok=true; answered=true;
+  const slotEls=document.getElementById('slotsPanel').querySelectorAll('.slot');
+  slotContents.forEach((item,i)=>{
+    const correct=item.year===sorted[i].year;if(!correct)ok=false;
+    const el=slotEls[i].querySelector('.hcard');
+    if(el){el.classList.add(correct?'correct':'wrong','locked');const e=el.querySelector('.card-era');if(e)e.style.visibility='visible';}
+    slotEls[i].classList.add('locked');
+  });
+  document.querySelectorAll('.card-wiki').forEach(a=>a.classList.add('revealed'));
+  if(ok){score+=hintUsed?5:10;roundResults.push(true);showBanner(true,'🏆 Brilliant!',hintUsed?'+5 points (hint used)':'+10 points! Perfect order!');}
+  else{score+=2;roundResults.push(false);showBanner(false,'⚔️ Not quite!','+2 points for trying. Correct order below.');showCorrectOrder(sorted);}
+  updateHUD();buildProgressTrack();
+  document.getElementById('nextBtn').style.display=currentRound<rounds.length-1?'inline-block':'none';
+  document.getElementById('restartBtn').style.display=currentRound>=rounds.length-1?'inline-block':'none';
+}
+
+function showCorrectOrder(sorted){
+  const ar=document.getElementById('answerReveal');ar.innerHTML='<div class="answer-reveal-title">Correct order:</div>';
+  sorted.forEach((item,i)=>{const c=document.createElement('div');c.className='answer-chip';c.innerHTML=`<span class="chip-num">${i+1}.</span>${item.emoji} ${item.name} <span style="opacity:.5">(${item.era})</span>`;ar.appendChild(c);});
+  ar.className='answer-reveal show';
+}
+
+function nextRound(){if(currentRound<rounds.length-1){currentRound++;loadRound();}}
+
+function showHint(){
+  if(answered)return;hintUsed=true;
+  const hints={world:'💡 Think: ancient civilisations → classical empires → medieval → early modern → 20th century.',britain:'💡 Think: ancient & Roman → Viking/Norman → medieval → Tudor/Stuart → Victorian → modern.',poland:'💡 Think: Piast dynasty (966–1370) → Jagiellonian → Commonwealth → Partitions (1795–1918) → modern Poland.',mixed:'💡 Think broadly: ancient world → medieval → early modern → 20th century.'};
+  document.getElementById('hintBox').textContent=hints[mode]||hints.world;document.getElementById('hintBox').className='hint-box show';
+}
+
+function clearSlots(){if(answered)return;slotContents=[null,null,null,null];selectedCard=null;rebuildView();}
+
+function showBanner(s,t,m){const b=document.getElementById('resultBanner');b.className='result-banner show '+(s?'success':'fail');document.getElementById('resultTitle').textContent=t;document.getElementById('resultMsg').textContent=m;}
+
+function buildProgressTrack(){
+  const pt=document.getElementById('progressTrack');pt.innerHTML='';
+  for(let i=0;i<rounds.length;i++){const d=document.createElement('div');d.className='prog-dot'+(i<roundResults.length?(roundResults[i]?' correct-dot':' wrong-dot'):i===currentRound?' current':'');pt.appendChild(d);}
+}
+
+function updateHUD(){
+  document.getElementById('scoreDisplay').textContent=score;document.getElementById('roundDisplay').textContent=currentRound+1;
+  const p=score/(rounds.length*10);document.getElementById('starsDisplay').textContent=p>=.9?'⭐⭐⭐':p>=.6?'⭐⭐☆':p>=.3?'⭐☆☆':'☆☆☆';
+}
+
+buildStars();restart();
 </script>
 </body>
 </html>
