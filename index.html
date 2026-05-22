@@ -143,19 +143,19 @@ header { text-align: center; padding: 22px 0 14px; border-bottom: 2px solid var(
 
 /* Scroll container */
 .tl-scroll-outer {
-  overflow-x:auto; overflow-y:hidden; height:300px;
+  overflow-y:auto; overflow-x:hidden; height:min(540px,70vh);
   background:linear-gradient(180deg,#100804 0%,#0a0502 50%,#100804 100%);
   border-top:1px solid rgba(201,134,31,.18); border-bottom:1px solid rgba(201,134,31,.18);
   cursor:grab; scrollbar-width:thin; scrollbar-color:rgba(201,134,31,.28) rgba(0,0,0,.2);
 }
-.tl-scroll-outer::-webkit-scrollbar { height:4px; }
+.tl-scroll-outer::-webkit-scrollbar { width:4px; }
 .tl-scroll-outer::-webkit-scrollbar-track { background:rgba(0,0,0,.3); }
 .tl-scroll-outer::-webkit-scrollbar-thumb { background:rgba(201,134,31,.3); border-radius:2px; }
 .tl-scroll-outer.grabbing { cursor:grabbing; }
-.tl-scroll-inner { height:100%; position:relative; transition:width .3s ease; }
+.tl-scroll-inner { width:100%; position:relative; transition:height .3s ease; }
 
 /* Era bands */
-.era-band         { position:absolute; top:0; bottom:0; opacity:.17; }
+.era-band         { position:absolute; left:0; right:0; opacity:.17; }
 .era-band.ancient { background:linear-gradient(180deg,#a07028,#3a2005); }
 .era-band.medieval{ background:linear-gradient(180deg,#285020,#0d1e0a); }
 .era-band.earlymod{ background:linear-gradient(180deg,#204878,#080f20); }
@@ -175,7 +175,7 @@ header { text-align: center; padding: 22px 0 14px; border-bottom: 2px solid var(
 .era-band.modern  { background:linear-gradient(180deg,#1a3a80,#060f28); }
 
 /* Era tags at top of band */
-.era-tag { position:absolute; top:0; height:20px; display:flex; align-items:center; justify-content:center; font-family:'Exo 2',sans-serif; font-size:.48rem; letter-spacing:1.6px; text-transform:uppercase; font-weight:600; pointer-events:none; white-space:nowrap; border-bottom:1px solid currentColor; opacity:.3; overflow:hidden; }
+.era-tag { position:absolute; left:0; right:0; height:18px; display:flex; align-items:center; justify-content:center; font-family:'Exo 2',sans-serif; font-size:.44rem; letter-spacing:1.6px; text-transform:uppercase; font-weight:600; pointer-events:none; white-space:nowrap; border-bottom:1px solid currentColor; opacity:.3; overflow:hidden; }
 .era-tag.ancient  { color:#d4a030; } .era-tag.medieval { color:#60b050; }
 .era-tag.earlymod { color:#5090d0; } .era-tag.industrial { color:#c060e0; }
 .era-tag.contemp  { color:#5090e0; }
@@ -187,24 +187,26 @@ header { text-align: center; padding: 22px 0 14px; border-bottom: 2px solid var(
 .era-tag.modern   { color:#5090e0; }
 
 /* Spine & ticks */
-.tl-spine    { position:absolute; left:0; right:0; height:2px; top:50%; transform:translateY(-50%); background:linear-gradient(90deg,transparent .2%,rgba(201,134,31,.45) 1.5%,rgba(201,134,31,.45) 98.5%,transparent 99.8%); }
-.tl-tick     { position:absolute; width:1px; background:rgba(181,164,138,.12); pointer-events:none; }
-.tl-tick-maj { background:rgba(181,164,138,.22); }
-.tl-tick-lbl { position:absolute; font-family:'Exo 2',sans-serif; font-size:.46rem; color:rgba(181,164,138,.2); transform:translateX(-50%); pointer-events:none; white-space:nowrap; top:calc(50% + 26px); }
+.tl-spine    { position:absolute; top:0; bottom:0; width:2px; left:50%; transform:translateX(-50%); background:linear-gradient(180deg,transparent .2%,rgba(201,134,31,.45) 1.5%,rgba(201,134,31,.45) 98.5%,transparent 99.8%); }
+.tl-tick     { position:absolute; height:1px; left:0; right:0; background:rgba(181,164,138,.07); pointer-events:none; }
+.tl-tick-maj { background:rgba(181,164,138,.14); }
+.tl-tick-lbl { position:absolute; font-family:'Exo 2',sans-serif; font-size:.44rem; color:rgba(181,164,138,.22); transform:translateY(-50%); pointer-events:none; white-space:nowrap; left:calc(50% + 16px); }
 
 /* Event nodes */
-.tl-node { position:absolute; top:50%; display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:3; }
-.tl-node.above { transform:translate(-50%,-100%); flex-direction:column-reverse; padding-bottom:4px; }
-.tl-node.below { transform:translate(-50%,0);      flex-direction:column;         padding-top:4px; }
-.tl-dot  { width:11px; height:11px; border-radius:50%; border:2px solid rgba(232,184,75,.55); background:#1a0f06; transition:all .18s; flex-shrink:0; z-index:4; }
-.tl-node:hover .tl-dot,.tl-node.active .tl-dot { background:var(--gold-light); border-color:var(--gold-light); transform:scale(1.5); box-shadow:0 0 12px rgba(232,184,75,.7); }
-.tl-stem { width:1px; background:rgba(201,134,31,.3); flex-shrink:0; height:20px; }
+.tl-node { position:absolute; left:50%; display:flex; flex-direction:row; align-items:center; cursor:pointer; z-index:3; }
+.tl-node.above { transform:translate(-100%,-50%); }
+.tl-node.below { transform:translate(0,-50%); }
+.tl-dot  { width:10px; height:10px; border-radius:50%; border:2px solid rgba(232,184,75,.55); background:#1a0f06; transition:all .18s; flex-shrink:0; z-index:4; }
+.tl-node:hover .tl-dot,.tl-node.active .tl-dot { background:var(--gold-light); border-color:var(--gold-light); transform:scale(1.4); box-shadow:0 0 10px rgba(232,184,75,.7); }
+.tl-stem { height:1px; background:rgba(201,134,31,.3); flex-shrink:0; width:24px; }
 .tl-node:hover .tl-stem,.tl-node.active .tl-stem { background:rgba(232,184,75,.5); }
-.tl-card { display:flex; flex-direction:column; align-items:center; text-align:center; max-width:70px; padding:4px 3px 3px; border-radius:6px; background:rgba(0,0,0,0); transition:background .18s; }
-.tl-node:hover .tl-card,.tl-node.active .tl-card { background:rgba(0,0,0,.45); }
-.tl-emoji { font-size:1.05rem; line-height:1; margin-bottom:1px; }
-.tl-year  { font-family:'Exo 2',sans-serif; font-size:.5rem; font-weight:700; color:rgba(232,184,75,.65); letter-spacing:.5px; white-space:nowrap; }
-.tl-name  { font-family:'Crimson Text',serif; font-size:.6rem; color:rgba(181,164,138,.7); line-height:1.2; margin-top:1px; }
+.tl-card { display:flex; flex-direction:column; max-width:88px; padding:3px 5px; border-radius:5px; background:rgba(0,0,0,0); transition:background .18s; }
+.tl-node.above .tl-card { text-align:right; align-items:flex-end; }
+.tl-node.below .tl-card { text-align:left; align-items:flex-start; }
+.tl-node:hover .tl-card,.tl-node.active .tl-card { background:rgba(0,0,0,.4); }
+.tl-emoji { font-size:1rem; line-height:1; margin-bottom:1px; }
+.tl-year  { font-family:'Exo 2',sans-serif; font-size:.48rem; font-weight:700; color:rgba(232,184,75,.65); letter-spacing:.5px; white-space:nowrap; }
+.tl-name  { font-family:'Crimson Text',serif; font-size:.58rem; color:rgba(181,164,138,.7); line-height:1.2; margin-top:1px; }
 .tl-node:hover .tl-name,.tl-node.active .tl-name { color:var(--parchment); }
 
 /* Detail panel */
@@ -722,7 +724,7 @@ let mode = 'world', rounds = [], currentRound = 0, score = 0;
 let roundResults = [], hintUsed = false, answered = false;
 let selectedCard = null, slotContents = [];
 
-const ZOOM_WIDTHS = [1200, 1900, 2800, 4200];
+const ZOOM_HEIGHTS = [1200, 1900, 2800, 4200];
 let zoomIdx = 1, currentLearnView = 'world', activeNode = null;
 
 // ============================================================
@@ -751,7 +753,7 @@ function renderLearn(key) {
   document.getElementById('learnTitle').textContent    = tl.title;
   document.getElementById('learnSubtitle').textContent = tl.subtitle;
   document.getElementById('tlInner').innerHTML = '';
-  document.getElementById('tlInner').style.width = ZOOM_WIDTHS[zoomIdx] + 'px';
+  document.getElementById('tlInner').style.height = ZOOM_HEIGHTS[zoomIdx] + 'px';
   buildTimeline(key);
   enableDragScroll(document.getElementById('tlOuter'));
 }
@@ -769,14 +771,13 @@ function buildTimeline(key) {
   tl.eraBands.forEach(b => {
     const band = document.createElement('div');
     band.className = 'era-band ' + b.key;
-    band.style.left  = p(b.start);
-    band.style.width = ((b.end - b.start) / span * 100).toFixed(3) + '%';
+    band.style.top    = p(b.start);
+    band.style.height = ((b.end - b.start) / span * 100).toFixed(3) + '%';
     inner.appendChild(band);
     const tag = document.createElement('div');
     tag.className   = 'era-tag ' + b.key;
     tag.textContent = tl.eraMeta[b.key].label.toUpperCase();
-    tag.style.left  = p(b.start);
-    tag.style.width = ((b.end - b.start) / span * 100).toFixed(3) + '%';
+    tag.style.top   = p(b.start);
     inner.appendChild(tag);
   });
 
@@ -789,12 +790,12 @@ function buildTimeline(key) {
   for (let y = first; y < tl.end; y += tl.tickMajor) {
     const tick = document.createElement('div');
     tick.className = 'tl-tick tl-tick-maj';
-    tick.style.left = p(y); tick.style.height = '36px'; tick.style.top = 'calc(50% - 18px)';
+    tick.style.top = p(y);
     inner.appendChild(tick);
     if (y % tl.tickLabel === 0) {
       const lbl = document.createElement('div');
       lbl.className = 'tl-tick-lbl';
-      lbl.style.left = p(y);
+      lbl.style.top = p(y);
       lbl.textContent = y < 0 ? Math.abs(y) + ' BC' : y + ' AD';
       inner.appendChild(lbl);
     }
@@ -805,7 +806,8 @@ function buildTimeline(key) {
     const above = i % 2 === 0;
     const node  = document.createElement('div');
     node.className  = 'tl-node ' + (above ? 'above' : 'below');
-    node.style.left = p(ev.year);
+    node.style.top  = p(ev.year);
+    node.style.left = '50%';
 
     const dot  = document.createElement('div'); dot.className  = 'tl-dot';
     const stem = document.createElement('div'); stem.className = 'tl-stem';
@@ -823,9 +825,9 @@ function buildTimeline(key) {
 }
 
 function adjustZoom(dir) {
-  zoomIdx = Math.max(0, Math.min(ZOOM_WIDTHS.length - 1, zoomIdx + dir));
-  document.getElementById('tlInner').style.width = ZOOM_WIDTHS[zoomIdx] + 'px';
-  document.getElementById('zoomLevel').textContent = Math.round(ZOOM_WIDTHS[zoomIdx] / ZOOM_WIDTHS[1] * 100) + '%';
+  zoomIdx = Math.max(0, Math.min(ZOOM_HEIGHTS.length - 1, zoomIdx + dir));
+  document.getElementById('tlInner').style.height = ZOOM_HEIGHTS[zoomIdx] + 'px';
+  document.getElementById('zoomLevel').textContent = Math.round(ZOOM_HEIGHTS[zoomIdx] / ZOOM_HEIGHTS[1] * 100) + '%';
 }
 
 function openDetail(ev, node, eraMeta) {
@@ -853,9 +855,9 @@ function closeDetail() {
 
 function enableDragScroll(el) {
   el.onmousedown = e => {
-    let startX = e.pageX - el.offsetLeft, sl = el.scrollLeft;
+    let startY = e.pageY - el.offsetTop, st = el.scrollTop;
     el.classList.add('grabbing');
-    const onMove = e => { if (e.buttons) el.scrollLeft = sl - (e.pageX - el.offsetLeft - startX); };
+    const onMove = e => { if (e.buttons) el.scrollTop = st - (e.pageY - el.offsetTop - startY); };
     const onUp   = () => { el.classList.remove('grabbing'); document.removeEventListener('mousemove',onMove); document.removeEventListener('mouseup',onUp); };
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup',   onUp);
