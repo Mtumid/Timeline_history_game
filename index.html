@@ -722,7 +722,7 @@ const TL_DATA = {
 // ============================================================
 let mode = 'world', rounds = [], currentRound = 0, score = 0;
 let roundResults = [], hintUsed = false, answered = false;
-let selectedCard = null, slotContents = [];
+let selectedCard = null, slotContents = [], currentPoolOrder = [];
 
 const ZOOM_HEIGHTS = [1200, 1900, 2800, 4200];
 let zoomIdx = 1, currentLearnView = 'world', activeNode = null;
@@ -893,7 +893,7 @@ function restart(){score=0;currentRound=0;roundResults=[];rounds=getRounds();upd
 function loadRound(){
   answered=false;hintUsed=false;selectedCard=null;slotContents=[null,null,null,null];
   document.getElementById('questionLabel').textContent=rounds[currentRound].q;
-  buildProgressTrack();renderPool(shuffle(rounds[currentRound].items));renderSlots();
+  currentPoolOrder=shuffle(rounds[currentRound].items);buildProgressTrack();renderPool(currentPoolOrder);renderSlots();
   document.getElementById('hintBox').className='hint-box';
   document.getElementById('answerReveal').className='answer-reveal';
   document.getElementById('answerReveal').innerHTML='<div class="answer-reveal-title">Correct order:</div>';
@@ -904,7 +904,7 @@ function loadRound(){
 function renderPool(ord){
   const pool=document.getElementById('cardPool');pool.innerHTML='';
   const inSlot=slotContents.filter(Boolean).map(i=>i.name);
-  (ord||rounds[currentRound].items).forEach(item=>{if(!inSlot.includes(item.name))pool.appendChild(makeCard(item,'pool'));});
+  (ord||currentPoolOrder).forEach(item=>{if(!inSlot.includes(item.name))pool.appendChild(makeCard(item,'pool'));});
   if(selectedCard)pool.querySelectorAll('.hcard').forEach(c=>{if(c.dataset.name===selectedCard.name)c.classList.add('selected');});
 }
 
